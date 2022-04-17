@@ -1,4 +1,6 @@
 import numpy as np
+import random
+import utils
 
 
 class AdjacencyList:
@@ -7,6 +9,19 @@ class AdjacencyList:
     def __init__(self, size: int):
         self.size = size
         self.adjacency_dictionary = dict()
+
+    def __str__(self):
+        return_string = ''
+        for (key, value) in self.adjacency_dictionary.items():
+            return_string += str(key) + ': ' + str(value) + '\n'
+        return return_string
+
+    def vertex_labels(self):
+        '''Generate vertex labels for plotting'''
+        labels = []
+        for i in range(self.size):
+            labels.append(i)
+        return labels
 
     def insert(self, key: int, val: int):
         '''Insert a new edge into the adjacency list'''
@@ -53,12 +68,6 @@ class AdjacencyList:
                 data.append((key, val))
         return data
 
-    def __str__(self):
-        return_string = ''
-        for (key, value) in self.adjacency_dictionary.items():
-            return_string += str(key) + ': ' + str(value) + '\n'
-        return return_string
-
 
 class AdjacencyMatrix:
     '''Representation of a graph as adjacency matrix'''
@@ -67,6 +76,14 @@ class AdjacencyMatrix:
 
         self.adj_matrix = matrix
         self.size = size
+
+    def __str__(self):
+        return_string = ''
+        for i in range(self.size):
+            for j in range(self.size):
+                return_string += str(self.adj_matrix[i][j]) + ' '
+            return_string += '\n'
+        return return_string
 
     def to_incidence_matrix(self):
         '''Converts the adjacency matrix to incidence matrix'''
@@ -87,16 +104,8 @@ class AdjacencyMatrix:
         for i, line in enumerate(self.adj_matrix):
             for j in range(len(line)):
                 if self.adj_matrix[i][j] == 1:
-                    neighbours_list.setdefault(i + 1, []).append(int(j+1))
+                    neighbours_list.setdefault(i, []).append(int(j))
         return neighbours_list
-
-    def __str__(self):
-        return_string = ''
-        for i in range(self.size):
-            for j in range(self.size):
-                return_string += str(self.adj_matrix[i][j]) + ' '
-            return_string += '\n'
-        return return_string
 
 
 class IncidenceMatrix:
@@ -105,6 +114,14 @@ class IncidenceMatrix:
     def __init__(self, matrix: list, size: int):
         self.in_matrix = matrix
         self.size = size
+
+    def __str__(self):
+        return_string = ''
+        for i in range(self.size):
+            for j in range(self.size):
+                return_string += str(self.in_matrix[i][j]) + ' '
+            return_string += '\n'
+        return return_string
 
     def to_adjacency_matrix(self):
         '''Convert incidence matrix to adjacency matrix'''
@@ -130,11 +147,61 @@ class IncidenceMatrix:
         adj_list = AdjacencyMatrix.adjacency_to_list(adj_matrix)
         return adj_list
 
+
+class Graph:
+    '''Class that represents a graph'''
+
+    def __init__(self, vertices: int = 0, edges: list = []):
+        self.vertices = vertices
+        self.edges = edges
+
     def __str__(self):
         return_string = ''
-        for i in range(self.size):
-            for j in range(self.size):
-                return_string += str(self.in_matrix[i][j]) + ' '
-            return_string += '\n'
+        for i in range(self.vertices):
+            return_string += str(i) + ': ' + str(self.edges[i]) + '\n'
         return return_string
 
+    def generate_graph_data(self):
+        '''Generate a graph data for plotting'''
+        data = []
+        for edge in self.edges:
+            data.append((edge[0], edge[1]))
+        return data
+
+    @staticmethod
+    def generate_random_graph(vertices: int, edges: int):
+        '''
+        vertices: int - number of vertices
+        edges: int - number of edges
+        '''
+
+        if vertices < 0 or edges < 0:
+            raise ValueError('Invalid number of edges')
+
+        random_graph = Graph()
+        random_graph.vertices = vertices
+        random_graph.edges = []
+        for i in range(edges):
+            # print(random_graph.edges)
+            random_u_1 = random.randint(0, vertices-1)
+            random_u_2 = utils.random_choice_except(vertices, random_u_1)
+            print(f'''random_u_1: {random_u_1}, random_u_2: {random_u_2}''')
+            if (random_u_1, random_u_2) not in random_graph.edges:
+                random_graph.edges.append((random_u_1, random_u_2))
+            else:
+                i -= 1
+        return random_graph
+
+    def vertex_labels(self):
+        '''Generate vertex labels'''
+        labels = []
+        for i in range(self.vertices):
+            labels.append(i)
+        return labels
+
+    def to_adjacency_list(self):
+        '''Convert a graph to adjacency list'''
+        adj_list = AdjacencyList(self.vertices)
+        for edge in self.edges:
+            adj_list.insert(edge[0], edge[1])
+        return adj_list
