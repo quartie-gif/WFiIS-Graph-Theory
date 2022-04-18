@@ -157,7 +157,7 @@ class Graph:
 
     def __str__(self):
         return_string = ''
-        for i in range(self.vertices):
+        for i in range( len(self.edges) ):
             return_string += str(i) + ': ' + str(self.edges[i]) + '\n'
         return return_string
 
@@ -169,7 +169,7 @@ class Graph:
         return data
 
     @staticmethod
-    def generate_random_graph(vertices: int, edges: int):
+    def generate_random_graph_ve(vertices: int, edges: int):
         '''
         vertices: int - number of vertices
         edges: int - number of edges
@@ -181,6 +181,7 @@ class Graph:
         random_graph = Graph()
         random_graph.vertices = vertices
         random_graph.edges = []
+        print('edges = ', edges)
         for i in range(edges):
             random_u_1 = random.randint(0, vertices-1)
             random_u_2 = utils.random_choice_except(vertices, random_u_1)
@@ -192,7 +193,7 @@ class Graph:
         return random_graph
 
     @staticmethod
-    def generate_random_graph(vertices: int, probability: float):
+    def generate_random_graph_vp(vertices: int, probability: float):
         '''
         vertices: int - number of vertices
         probability: float - given probability of generating each edge
