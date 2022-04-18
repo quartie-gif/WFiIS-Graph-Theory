@@ -182,14 +182,39 @@ class Graph:
         random_graph.vertices = vertices
         random_graph.edges = []
         for i in range(edges):
-            # print(random_graph.edges)
             random_u_1 = random.randint(0, vertices-1)
             random_u_2 = utils.random_choice_except(vertices, random_u_1)
-            print(f'''random_u_1: {random_u_1}, random_u_2: {random_u_2}''')
+            # print(f'''random_u_1: {random_u_1}, random_u_2: {random_u_2}''')
             if (random_u_1, random_u_2) not in random_graph.edges:
                 random_graph.edges.append((random_u_1, random_u_2))
             else:
                 i -= 1
+        return random_graph
+
+    @staticmethod
+    def generate_random_graph(vertices: int, probability: float):
+        '''
+        vertices: int - number of vertices
+        probability: float - given probability of generating each edge
+        '''
+        
+        if probability < 0.0 or probability > 1.0:
+            raise ValueError("Error, value of probability is invalid!")
+        
+        if vertices<=0:
+            raise ValueError('Invalid number of vertices')
+
+        random_graph = Graph()
+        random_graph.vertices = vertices
+        random_graph.edges = []
+        
+        for vertice in range(vertices):
+            for vertice_to_align in range(vertices):
+                if vertice_to_align != vertice:
+                    random_probability = random.random()
+                    if random_probability < probability: 
+                       random_graph.edges.append((vertice_to_align, vertice))
+                    #    print(f'''vertice: {vertice}, inner_vertice: {vertice_to_align}''')
         return random_graph
 
     def vertex_labels(self):
