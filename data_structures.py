@@ -231,3 +231,23 @@ class Graph:
         for edge in self.edges:
             adj_list.insert(edge[0], edge[1])
         return adj_list
+
+    #zestaw 2
+    def randomize(self, times: int=1):
+        for i in range(times):
+            to_change = len(self.edges)/2;
+            while to_change > 0:
+                rand_1 = random.randint(0, len(self.edges)-1)
+                rand_2 = utils.random_choice_except(len(self.edges), rand_1)
+                edge_1 = self.edges[rand_1]
+                edge_2 = self.edges[rand_2]
+                new_1, new_2 = (edge_1[0], edge_2[1]), (edge_2[0], edge_1[1])
+                if  (   
+                        new_1[0] != new_1[1] and new_2[0] != new_2[1] 
+                        and new_1 not in self.edges and new_2 not in self.edges
+                        and (new_1[1], new_1[0]) not in self.edges
+                        and (new_2[1], new_2[0]) not in self.edges
+                    ):
+                    self.edges[rand_1], self.edges[rand_2] = new_1, new_2
+                    to_change -= 1;
+
