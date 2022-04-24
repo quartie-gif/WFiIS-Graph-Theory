@@ -1,6 +1,8 @@
 import numpy as np
 import random
 import utils
+import igraph as g
+import numpy as np
 
 
 class AdjacencyList:
@@ -18,9 +20,7 @@ class AdjacencyList:
 
     def vertex_labels(self):
         '''Generate vertex labels for plotting'''
-        labels = []
-        for i in range(self.size):
-            labels.append(i)
+        labels = [ i for i in range(self.size) ]
         return labels
 
     def insert(self, key: int, val: int):
@@ -220,9 +220,7 @@ class Graph:
 
     def vertex_labels(self):
         '''Generate vertex labels'''
-        labels = []
-        for i in range(self.vertices):
-            labels.append(i)
+        labels = [ i for i in range(self.vertices) ]
         return labels
 
     def to_adjacency_list(self):
@@ -232,8 +230,32 @@ class Graph:
             adj_list.insert(edge[0], edge[1])
         return adj_list
 
+    def plot(self):
+        '''Plot and display graph'''
+        data_to_visualize = self.generate_graph_data()
+        graph_visualization = g.Graph(data_to_visualize)
+        graph_visualization.vs["label"] = self.vertex_labels()
+        graph_visualization.simplify()
+        g.plot(graph_visualization, layout='circle', directed=False)
+
+    def get_vertices(self):
+        '''Return list of all vertices'''
+        return [ i for i in range(self.vertices) ]
+
+    def get_edges(self):
+        '''Return list of all edges'''
+        return [ i for i in self.edges ]
+
+    def get_neighbors(self, vert: int):
+        '''Return list od neighburs of given vertice'''
+        is_connected = lambda x: vert == x[0] or vert == x[1]
+        edges = list( filter( is_connected, self.edges ) )
+        out = [ edge[0] if vert == edge[1] else edge[1] for edge in edges]
+        return out
+
     #zestaw 2
     def randomize(self, times: int=1):
+        '''Randomize graph given times'''
         for i in range(times):
             to_change = len(self.edges)/2;
             while to_change > 0:
