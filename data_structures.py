@@ -218,6 +218,38 @@ class Graph:
                     #    print(f'''vertice: {vertice}, inner_vertice: {vertice_to_align}''')
         return random_graph
 
+    #zestaw 2
+    @staticmethod
+    def generate_k_regular_graph(vertices: int, k: int):
+        if vertices < 0 or k < 0 or k > vertices-1 or (k*vertices)%2 != 0:
+            raise ValueError('Invalid number of edges')
+
+        regular_graph = Graph()
+        regular_graph.vertices = vertices
+        regular_graph.edges = []
+
+        if vertices%2 == 0:
+            if k%2 == 0:
+                step = 1
+                for _ in range(k//2):
+                    for i in range(vertices):
+                        regular_graph.edges.append( (i%vertices, (i+step)%vertices) )
+                    step += 1
+            else:
+                step = vertices//2 
+                for _ in range(k//2+1):
+                    for i in range(vertices):
+                        regular_graph.edges.append( (i%vertices, (i+step)%vertices) )
+                    step -= 1
+        else:
+            step = 1
+            while step < k:
+                for i in range(vertices):
+                    regular_graph.edges.append( (i%vertices, (i+step)%vertices) )
+                step += 2
+
+        return regular_graph
+
     def vertex_labels(self):
         '''Generate vertex labels'''
         labels = [ i for i in range(self.vertices) ]
@@ -252,6 +284,9 @@ class Graph:
         edges = list( filter( is_connected, self.edges ) )
         out = [ edge[0] if vert == edge[1] else edge[1] for edge in edges]
         return out
+
+    def amount_of_vertices(self):
+        return len( self.vertices )
 
     #zestaw 2
     def randomize(self, times: int=1):

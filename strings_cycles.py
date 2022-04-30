@@ -89,11 +89,29 @@ def greatest_components_size(in_graph: Graph):
     '''Return size of largest component'''
     all_comps = all_components(in_graph)
     return max( [len(i) for i in all_comps.values()] )
-    
 
+def components_listing(in_graph: Graph):
+    ''' Listing of all components'''
+    out = ''
+    max_size = -1
+    max_id = -1
+    data = all_components(in_graph)
+    print(data)
+    for key, val in data.items():
+        out += f"{key}) " + " ".join(map(str, val)) + '\n'
+        if len(val) > max_size:
+            max_size = len(val)
+            max_id = key
+    out += f"Greatest component: {max_id}).\n"
+    return out;
 
+def is_connected(in_graph: Graph):
+    return in_graph.amount_of_vertices() == greatest_components_size()
 
-
-
-
-
+def eulerian_cycle(in_graph: Graph):
+    '''Searching Eulerian cycle in given graph'''
+    if is_connected(in_graph):
+        # if yes
+        out = "["
+    else:
+        return "No Eulerian cycle in given graph"

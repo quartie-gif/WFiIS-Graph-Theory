@@ -35,24 +35,52 @@ if __name__ == "__main__":
     # random_probability_graph = Graph.generate_random_graph_vp(6, 0.3)
     # random_probability_graph.plot()
 
-    print('zad 2.1')
-    str_1 = [4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2]
-    str_2 = [4, 4, 3, 1, 2]
-    print("Czy ciag graficzny:")
-    print("str_1: ", is_graphical_string(str_1) )
-    print("str_2: ", is_graphical_string(str_2) )
-    graph = string_to_graph(str_1)
-    graph.plot()
+    # print( 'zad 2.1' )
+    # str_1 = [4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2]
+    # str_2 = [4, 4, 3, 1, 2]
+    # print( "Czy ciag graficzny:" )
+    # print( "str_1: ", is_graphical_string(str_1) )
+    # print( "str_2: ", is_graphical_string(str_2) )
+    # graph = string_to_graph(str_1)
+    # graph.plot()
     
-    print('zad 2.2')
+    # print('zad 2.2')
     # graph.randomize()
     # graph.plot()
 
-    print('zad 2.3')
-    print(greatest_components_elements(graph))
-    print(greatest_components_size(graph))
+    # print('zad 2.3')
+    # print( components_listing(graph) )
+
+    print('zad 2.4')
 
 
+    print('zad 2.5')
+    k_regular_graph = Graph.generate_k_regular_graph(4, 1)
+    k_regular_graph.plot()
+
+    k_regular_graph = Graph.generate_k_regular_graph(4, 2)
+    k_regular_graph.plot()
+
+    k_regular_graph = Graph.generate_k_regular_graph(4, 3)
+    k_regular_graph.plot()
+
+    k_regular_graph = Graph.generate_k_regular_graph(8, 1)
+    k_regular_graph.plot()
+
+    k_regular_graph = Graph.generate_k_regular_graph(8, 3)
+    k_regular_graph.plot()
+
+    k_regular_graph = Graph.generate_k_regular_graph(8, 5)
+    k_regular_graph.plot()
+
+    k_regular_graph = Graph.generate_k_regular_graph(7, 2)
+    k_regular_graph.plot()
+
+    k_regular_graph = Graph.generate_k_regular_graph(7, 4)
+    k_regular_graph.plot()
+
+    k_regular_graph = Graph.generate_k_regular_graph(7, 6)
+    k_regular_graph.plot()
 
 
 
