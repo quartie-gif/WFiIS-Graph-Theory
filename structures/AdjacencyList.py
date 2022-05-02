@@ -1,5 +1,7 @@
 import numpy as np
 
+from structures import AdjacencyMatrix
+
 
 class AdjacencyList:
     '''Representation of a graph as adjacency list'''

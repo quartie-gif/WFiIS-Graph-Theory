@@ -1,7 +1,7 @@
 import random
 import igraph as ig
 import utils
-from structures import AdjacencyList, WeightMatrix
+from structures import AdjacencyList, DistanceMatrix, WeightMatrix
 import heapq as hq
 import math
 
@@ -35,6 +35,7 @@ class Graph:
 
     def randomize_weights(self, start: int, stop: int):
         '''Generate random weights for the edges'''
+        self.weighted_edges.clear()
         for _ in range(len(self.edges)):
             self.weighted_edges.append(random.randint(start, stop))
 
@@ -96,9 +97,18 @@ class Graph:
                     # print("vertice = ", vertice)
                     random_probability = random.random()
                     if random_probability <= probability:
-                        random_graph.edges.append((vertice_to_align, vertice))
+                        if directed:
+                            random_graph.edges.append(
+                                (vertice, vertice_to_align))
+                        else:
+                            random_graph.edges.append(
+                                (vertice, vertice_to_align))
+                            # get rid of duplicates for undirected graphs
+                            random_graph.edges = random_graph.get_edges()
+
                     #    print(f'''vertice: {vertice}, inner_vertice: {vertice_to_align}''')
-        random_graph.randomize_weights(1, 10)
+        if random_graph.weighted:
+            random_graph.randomize_weights(1, 10)
         return random_graph
 
     # zestaw 2
@@ -186,14 +196,16 @@ class Graph:
 
         if weighted:
             graph_visualization = ig.Graph(
-                data_to_visualize, edge_attrs=dict(weight=self.weighted_edges))
+                data_to_visualize)
+            graph_visualization.es["weights"] = self.weighted_edges
+            graph_visualization.es["label"] = self.weighted_edges
         graph_visualization = ig.Graph(data_to_visualize)
-        print(self.vertex_labels())
+        # print(self.vertex_labels())
         graph_visualization.vs["label"] = self.vertex_labels()
-        # graph_visualization.es["weights"] = self.weighted_edges
         # print(graph_visualization.get_edgelist())
 
-        ig.plot(graph_visualization, layout=layout, directed=directed,)
+        ig.plot(graph_visualization, layout=layout,
+                directed=directed, weighted=weighted)
 
     def get_vertices(self):
         '''Return list of all vertices'''
@@ -227,12 +239,9 @@ class Graph:
     def count_edges_undirected(self):
         adj_list = self.to_adjacency_list()
         count = 0
-        # print(adj_list.adjacency_dictionary)
         for vertex in range(self.vertices):
-            # print(f'Vertex: {vertex}')
-            # print(f'Count: {count}')
             count += len(adj_list.adjacency_dictionary[vertex])
-        return count // 2
+        return int(count / 2)
 
     def count_edges(self):
         '''Return number of edges'''
@@ -275,8 +284,9 @@ class Graph:
                     self.edges[rand_1], self.edges[rand_2] = new_1, new_2
                     to_change -= 1
 
-    def get_shortest_path_directed(self, start_vertex: int):
+    def get_shortest_path_directed(self, start_vertex: int, print_solutions: bool = False):
         '''Return shortest path from start to all other vertices'''
+        # TODO implement this method for directed graphs
         pass
 
     def minDistance(self, dist, p_s):
@@ -288,7 +298,7 @@ class Graph:
 
         return min_index
 
-    def get_shortest_path_undirected(self, src: int):
+    def get_shortest_path_undirected(self, src: int, print_solutions: bool = False):
 
         weight_matrix = self.to_weight_matrix()
         d_s = [math.inf] * self.vertices
@@ -307,27 +317,63 @@ class Graph:
                    d_s[v] > d_s[u] + weight_matrix[u][v]):
                     d_s[v] = d_s[u] + weight_matrix[u][v]
                     parent[v] = u
-        self.printSolution(d_s, parent)
+        if print_solutions:
+            self.printSolution(d_s, parent)
         return d_s
 
     def printPath(self, parent, j):
 
         if parent[j] == -1:
-            print(j, end=" ")
+            print(j, end="-")
             return
         self.printPath(parent, parent[j])
-        print(j, end=" ")
+        print(j, end="-")
 
     def printSolution(self, dist, parent: list):
-        src = 0
         for i in range(1, len(dist)):
-            print(f'\nd({i}) = {dist[i]}\t', end=" ")
+            print(f'\nd({i}) = {dist[i]} ==>\t', end=" ")
             self.printPath(parent, i)
         print('\n')
 
-    def get_shortest_path(self, start: int):
+    def get_shortest_path(self, start: int, print_solutions: bool = False):
         '''Return shortest path between start and end vertices'''
         if self.directed:
-            return self.get_shortest_path_directed(start)
+            return self.get_shortest_path_directed(start, print_solutions)
         else:
-            return self.get_shortest_path_undirected(start)
+            return self.get_shortest_path_undirected(start, print_solutions)
+
+    def to_distance_matrix(self):
+        '''Return distance matrix'''
+        dist_matrix = DistanceMatrix.DistanceMatrix(self.vertices)
+        for i in range(self.vertices):
+            row_to_append = self.get_shortest_path(i)
+            # print("From vertex {} to all other vertices:".format(i))
+            # print(row_to_append)
+            for j in range(self.vertices):
+                dist_matrix.set(i, j, row_to_append[j])
+        return dist_matrix
+
+    def get_center_vertices(self):
+        '''Return the center vertice'''
+        dist_matrix = self.to_distance_matrix()
+        min_sum = math.inf
+        center = 0
+        for element in range(dist_matrix.size):
+            sum = 0
+            for i in range(dist_matrix.size):
+                sum += dist_matrix.get(element, i)
+            if sum < min_sum:
+                min_sum = sum
+                center = element
+        return center, min_sum
+
+    def get_center_minimax(self):
+        '''Return the center vertice'''
+        min_distance = math.inf
+        center = 0
+        for vertex in range(self.vertices):
+            max_distance_from_vertex = max(self.get_shortest_path(vertex))
+            if max_distance_from_vertex < min_distance:
+                min_distance = max_distance_from_vertex
+                center = vertex
+        return center, min_distance

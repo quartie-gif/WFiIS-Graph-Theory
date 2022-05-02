@@ -1,7 +1,7 @@
 class DistanceMatrix:
     def __init__(self, size):
         self.size = size
-        self.matrix = [[0 for x in range(size)] for y in range(size)]
+        self.matrix = [[0 for _ in range(size)] for _ in range(size)]
 
     def __str__(self):
         return_string = ''

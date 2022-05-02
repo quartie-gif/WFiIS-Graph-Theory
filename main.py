@@ -86,23 +86,29 @@ def task_2():
 
 
 def task_3():
+    print('zad 3.1')
     graph = Graph.generate_random_graph_vp(
-        vertices=12, probability=0.2, weighted=True, directed=False)
+        vertices=10, probability=0.2, weighted=True, directed=False)
     while graph.is_connected() == False:
-        graph.randomize()
-
-    print(graph.to_weight_matrix())
-    graph.get_shortest_path(0)
-    # Creating Distance Matrix
-    dist_matrix = DistanceMatrix(graph.vertices)
-    for i in range(graph.vertices):
-        row_to_append = graph.get_shortest_path(i)
-        print("From vertex {} to all other vertices:".format(i))
-        print(row_to_append)
-        for j in range(graph.vertices):
-            dist_matrix.set(i, j, row_to_append[j])
-    print(dist_matrix)
+        graph = graph.generate_random_graph_vp(
+            vertices=10, probability=0.2, weighted=True, directed=False)
     graph.plot(weighted=True, directed=False)
+
+    print('zad 3.2')
+    graph.get_shortest_path(0, print_solutions=True)
+
+    print('zad 3.3')
+    # Creating Distance Matrix
+    dist_matrix = graph.to_distance_matrix()
+    print(dist_matrix)
+
+    print('zad 3.4')
+    center, min_sum = graph.get_center_vertices()
+    print(f'Centrum = {center} (suma odleglosci: {min_sum})')
+
+    center_minimax, minimax = graph.get_center_minimax()
+    print(
+        f'Centrum minimax = {center_minimax} (odleglosc od najdalszego: {minimax})')
 
 
 def main():
