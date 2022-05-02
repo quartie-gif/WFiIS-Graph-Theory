@@ -286,7 +286,7 @@ class Graph:
         return out
 
     def amount_of_vertices(self):
-        return len( self.vertices )
+        return self.vertices
 
     #zestaw 2
     def randomize(self, times: int=1):
@@ -307,4 +307,8 @@ class Graph:
                     ):
                     self.edges[rand_1], self.edges[rand_2] = new_1, new_2
                     to_change -= 1;
+
+    def degree(self, vert: int):
+        '''Return degree of a given vertex'''
+        return sum( i.count(vert) for i in self.edges )
 

@@ -28,7 +28,7 @@ if __name__ == "__main__":
     # g.plot(graph_visualization, layout = 'circle', directed = False)
 
     # print('zad 1.3a')
-    # graph = Graph.generate_random_graph_ve(vertices=8, edges=6)
+    # graph = Graph.generate_random_graph_ve(vertices=6, edges=10)
     # graph.plot()
 
     # print('zad 1.3b')
@@ -45,42 +45,54 @@ if __name__ == "__main__":
     # graph.plot()
     
     # print('zad 2.2')
-    # graph.randomize()
+    # graph.randomize(2)
     # graph.plot()
 
     # print('zad 2.3')
     # print( components_listing(graph) )
 
-    print('zad 2.4')
+    # print('zad 2.4')
+    # str_3 = [ 4, 2, 6, 2, 6, 2, 4, 2 ]
+    # graph = string_to_graph(str_3)
+    # graph.plot()
+    # print( eulerian_cycle(graph) )
 
+    # print('zad 2.5')
+    # k_regular_graph = Graph.generate_k_regular_graph(4, 1)
+    # k_regular_graph.plot()
 
-    print('zad 2.5')
-    k_regular_graph = Graph.generate_k_regular_graph(4, 1)
-    k_regular_graph.plot()
+    # k_regular_graph = Graph.generate_k_regular_graph(4, 2)
+    # k_regular_graph.plot()
 
-    k_regular_graph = Graph.generate_k_regular_graph(4, 2)
-    k_regular_graph.plot()
+    # k_regular_graph = Graph.generate_k_regular_graph(4, 3)
+    # k_regular_graph.plot()
 
-    k_regular_graph = Graph.generate_k_regular_graph(4, 3)
-    k_regular_graph.plot()
+    # k_regular_graph = Graph.generate_k_regular_graph(8, 1)
+    # k_regular_graph.plot()
 
-    k_regular_graph = Graph.generate_k_regular_graph(8, 1)
-    k_regular_graph.plot()
+    # k_regular_graph = Graph.generate_k_regular_graph(8, 3)
+    # k_regular_graph.plot()
 
-    k_regular_graph = Graph.generate_k_regular_graph(8, 3)
-    k_regular_graph.plot()
+    # k_regular_graph = Graph.generate_k_regular_graph(8, 5)
+    # k_regular_graph.plot()
 
-    k_regular_graph = Graph.generate_k_regular_graph(8, 5)
-    k_regular_graph.plot()
+    # k_regular_graph = Graph.generate_k_regular_graph(7, 2)
+    # k_regular_graph.plot()
 
-    k_regular_graph = Graph.generate_k_regular_graph(7, 2)
-    k_regular_graph.plot()
+    # k_regular_graph = Graph.generate_k_regular_graph(7, 4)
+    # k_regular_graph.plot()
 
-    k_regular_graph = Graph.generate_k_regular_graph(7, 4)
-    k_regular_graph.plot()
+    # k_regular_graph = Graph.generate_k_regular_graph(7, 6)
+    # k_regular_graph.plot()
 
-    k_regular_graph = Graph.generate_k_regular_graph(7, 6)
-    k_regular_graph.plot()
+    # print('zad 2.6')
+    for i in range(10):
+        k_regular_graph = Graph.generate_k_regular_graph(8, 3)
+        k_regular_graph.randomize()
+        k_regular_graph.plot()
+        k_regular_graph.plot()
+        print( hamilotnian_cycle(k_regular_graph) )
+
 
 
 
