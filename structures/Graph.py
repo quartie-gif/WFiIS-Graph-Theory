@@ -14,6 +14,7 @@ class Graph:
         self.edges = edges
         self.directed = directed
         self.weighted = weighted
+        # weighted edges are stored in a list of tuples according to the order of the self.edges
         self.weighted_edges = []
 
     def __str__(self):
@@ -49,7 +50,7 @@ class Graph:
         return weights
 
     @staticmethod
-    def generate_random_graph_ve(vertices: int, edges: int):
+    def generate_random_graph_ve(vertices: int, edges: int, weighted=False, directed=False):
         '''
         vertices: int - number of vertices
         edges: int - number of edges
@@ -60,6 +61,8 @@ class Graph:
 
         random_graph = Graph()
         random_graph.vertices = vertices
+        random_graph.directed = directed
+        random_graph.weighted = weighted
         random_graph.edges = []
         for i in range(edges):
             random_u_1 = random.randint(0, vertices-1)
@@ -69,6 +72,9 @@ class Graph:
                 random_graph.edges.append((random_u_1, random_u_2))
             else:
                 i -= 1
+        if not random_graph.directed:
+            # get rid of duplicates in undirected graph
+            random_graph.edges = random_graph.get_edges()
         return random_graph
 
     @staticmethod
@@ -377,3 +383,35 @@ class Graph:
                 min_distance = max_distance_from_vertex
                 center = vertex
         return center, min_distance
+
+    def find_min_spanning_tree_undirected(self):
+        '''Return the minimum spanning tree'''
+        weight_matrix = self.to_weight_matrix()
+        selected_vertices = [0 for _ in range(self.vertices)]
+        counter = 0
+        selected_vertices[0] = True
+        while (counter < self.vertices - 1):
+            minimum = math.inf
+            from_vertex = to_vertex = 0
+            for i in range(self.vertices):
+                if selected_vertices[i]:
+                    for j in range(self.vertices):
+                        if ((not selected_vertices[j]) and weight_matrix[i][j]):
+                            if minimum > weight_matrix[i][j]:
+                                minimum = weight_matrix[i][j]
+                                from_vertex = i
+                                to_vertex = j
+            print(str(from_vertex) + " -> " + str(to_vertex) +
+                  " :\t" + str(weight_matrix[from_vertex][to_vertex]))
+            selected_vertices[to_vertex] = True
+            counter += 1
+
+    def find_min_spanning_tree_directed():
+        # TODO  implement this method for directed graphs
+        pass
+
+    def find_min_spanning_tree(self):
+        if self.directed:
+            return self.find_min_spanning_tree_directed()
+        else:
+            return self.find_min_spanning_tree_undirected()

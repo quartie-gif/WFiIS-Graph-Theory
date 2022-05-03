@@ -20,7 +20,7 @@ def task_1():
     inc_matrix.in_matrix = adj_matrix.to_incidence_matrix()
     print(inc_matrix)
 
-    print('zad 1.2')
+    print('\nzad 1.2')
     data_to_visualize = adj_list.generate_graph_data()
     print(data_to_visualize)
     graph = Graph(vertices=len(data_to_visualize)//2,
@@ -28,11 +28,11 @@ def task_1():
 
     graph.plot(layout='circle', directed=False)
 
-    print('zad 1.3a')
+    print('\nzad 1.3a')
     graph = Graph.generate_random_graph_ve(vertices=8, edges=6)
     graph.plot()
 
-    print('zad 1.3b')
+    print('\nzad 1.3b')
     random_probability_graph = Graph.generate_random_graph_vp(6, 0.3)
     random_probability_graph.plot(layout='auto')
 
@@ -88,27 +88,33 @@ def task_2():
 def task_3():
     print('zad 3.1')
     graph = Graph.generate_random_graph_vp(
-        vertices=10, probability=0.2, weighted=True, directed=False)
+        vertices=5, probability=0.2, weighted=True, directed=False)
     while graph.is_connected() == False:
         graph = graph.generate_random_graph_vp(
-            vertices=10, probability=0.2, weighted=True, directed=False)
-    graph.plot(weighted=True, directed=False)
+            vertices=5, probability=0.2, weighted=True, directed=False)
+    # graph.plot(weighted=True, directed=False)
 
-    print('zad 3.2')
+    print('\nzad 3.2')
     graph.get_shortest_path(0, print_solutions=True)
 
-    print('zad 3.3')
+    print('\nzad 3.3')
     # Creating Distance Matrix
     dist_matrix = graph.to_distance_matrix()
     print(dist_matrix)
 
-    print('zad 3.4')
+    print('\nzad 3.4')
     center, min_sum = graph.get_center_vertices()
     print(f'Centrum = {center} (suma odleglosci: {min_sum})')
 
     center_minimax, minimax = graph.get_center_minimax()
     print(
         f'Centrum minimax = {center_minimax} (odleglosc od najdalszego: {minimax})')
+
+    print('\nzad 3.5')
+    graph.plot(weighted=True, directed=False)
+    print(f'Weights: {graph.weighted_edges}')
+    print('Edges: ', graph.get_edges())
+    graph.find_min_spanning_tree()
 
 
 def main():
