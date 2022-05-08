@@ -1,8 +1,4 @@
-from tkinter import W
-from structures import *
-from strings_cycles import *
-import utils
-
+from ui_managment import *
 
 def task_1():
     print('zad 1.1')
@@ -117,10 +113,12 @@ def task_3():
     graph.find_min_spanning_tree()
 
 
+
 def main():
-    # task_1()
-    # task_2()
-    task_3()
+    is_running = True
+    while( is_running ):
+        choice = main_menu()
+        is_running = match_set(choice)
 
 
 if __name__ == "__main__":

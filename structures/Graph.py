@@ -10,7 +10,7 @@ class Graph:
     '''Class that represents a graph'''
 
     def __init__(self, vertices: int = 0, edges: list = [], directed: bool = False, weighted: bool = False):
-        self.vertices = vertices
+        self.number_of_vertices = vertices
         self.edges = edges
         self.directed = directed
         self.weighted = weighted
@@ -60,7 +60,7 @@ class Graph:
             raise ValueError('Invalid number of edges')
 
         random_graph = Graph()
-        random_graph.vertices = vertices
+        random_graph.number_of_vertices = vertices
         random_graph.directed = directed
         random_graph.weighted = weighted
         random_graph.edges = []
@@ -93,7 +93,7 @@ class Graph:
         random_graph = Graph()
         random_graph.weighted = weighted
         random_graph.directed = directed
-        random_graph.vertices = vertices
+        random_graph.number_of_vertices = vertices
         random_graph.edges = []
 
         for vertice in range(vertices):
@@ -124,7 +124,7 @@ class Graph:
             raise ValueError('Invalid number of edges')
 
         regular_graph = Graph()
-        regular_graph.vertices = vertices
+        regular_graph.number_of_vertices = vertices
         regular_graph.edges = []
 
         if vertices % 2 == 0:
@@ -154,7 +154,7 @@ class Graph:
 
     def is_connected(self, edges: list = []):
         '''Check if graph is connected'''
-        if self.vertices == 0:
+        if self.number_of_vertices == 0:
             return False
         if self.directed:
             return self.is_connected_directed()
@@ -168,7 +168,7 @@ class Graph:
 
     def is_connected_undirected(self):
         '''Check if graph is undirected connected'''
-        visited_vertices = [False for _ in range(self.vertices)]
+        visited_vertices = [False for _ in range(self.number_of_vertices)]
         for edge in self.edges:
             visited_vertices[edge[0]] = True
             visited_vertices[edge[1]] = True
@@ -179,19 +179,19 @@ class Graph:
 
     def vertex_labels(self):
         '''Generate vertex labels'''
-        labels = [i for i in range(self.vertices)]
+        labels = [i for i in range(self.number_of_vertices)]
         return labels
 
     def to_adjacency_list(self):
         '''Convert a graph to adjacency list'''
-        adj_list = AdjacencyList(self.vertices)
+        adj_list = AdjacencyList(self.number_of_vertices)
         for edge in self.edges:
             adj_list.insert(edge[0], edge[1])
         return adj_list
 
     def to_weight_matrix(self):
         '''Convert a graph to weight matrix'''
-        weight_matrix = WeightMatrix.WeightMatrix(self.vertices)
+        weight_matrix = WeightMatrix.WeightMatrix(self.number_of_vertices)
         for i, edge in enumerate(self.generate_graph_data()):
             weight_matrix.insert(edge[0], edge[1], self.weighted_edges[i])
         return weight_matrix
@@ -215,7 +215,7 @@ class Graph:
 
     def get_vertices(self):
         '''Return list of all vertices'''
-        return [i for i in range(self.vertices)]
+        return [i for i in range(self.number_of_vertices)]
 
     def get_directed_edges(self):
         '''Return list of all directed edges'''
@@ -245,7 +245,7 @@ class Graph:
     def count_edges_undirected(self):
         adj_list = self.to_adjacency_list()
         count = 0
-        for vertex in range(self.vertices):
+        for vertex in range(self.number_of_vertices):
             count += len(adj_list.adjacency_dictionary[vertex])
         return int(count / 2)
 
@@ -265,10 +265,10 @@ class Graph:
         return out
 
     def amount_of_vertices(self):
-        return len(self.vertices)
+        return self.number_of_vertices
 
     def get_list_vertices(self):
-        return [i for i in range(self.vertices)]
+        return [i for i in range(self.number_of_vertices)]
 
     # zestaw 2
     def randomize(self, times: int = 1):
@@ -297,7 +297,7 @@ class Graph:
 
     def minDistance(self, dist, p_s):
         min = math.inf
-        for v in range(self.vertices):
+        for v in range(self.number_of_vertices):
             if dist[v] < min and p_s[v] == False:
                 min = dist[v]
                 min_index = v
@@ -307,17 +307,17 @@ class Graph:
     def get_shortest_path_undirected(self, src: int, print_solutions: bool = False):
 
         weight_matrix = self.to_weight_matrix()
-        d_s = [math.inf] * self.vertices
+        d_s = [math.inf] * self.number_of_vertices
         d_s[src] = 0
-        parent = [-1] * self.vertices
-        p_s = [False] * self.vertices
-        for _ in range(self.vertices):
+        parent = [-1] * self.number_of_vertices
+        p_s = [False] * self.number_of_vertices
+        for _ in range(self.number_of_vertices):
 
             u = self.minDistance(d_s, p_s)
 
             p_s[u] = True
 
-            for v in range(self.vertices):
+            for v in range(self.number_of_vertices):
                 if (weight_matrix[u][v] > 0 and
                    p_s[v] == False and
                    d_s[v] > d_s[u] + weight_matrix[u][v]):
@@ -350,12 +350,12 @@ class Graph:
 
     def to_distance_matrix(self):
         '''Return distance matrix'''
-        dist_matrix = DistanceMatrix.DistanceMatrix(self.vertices)
-        for i in range(self.vertices):
+        dist_matrix = DistanceMatrix.DistanceMatrix(self.number_of_vertices)
+        for i in range(self.number_of_vertices):
             row_to_append = self.get_shortest_path(i)
             # print("From vertex {} to all other vertices:".format(i))
             # print(row_to_append)
-            for j in range(self.vertices):
+            for j in range(self.number_of_vertices):
                 dist_matrix.set(i, j, row_to_append[j])
         return dist_matrix
 
@@ -377,7 +377,7 @@ class Graph:
         '''Return the center vertice'''
         min_distance = math.inf
         center = 0
-        for vertex in range(self.vertices):
+        for vertex in range(self.number_of_vertices):
             max_distance_from_vertex = max(self.get_shortest_path(vertex))
             if max_distance_from_vertex < min_distance:
                 min_distance = max_distance_from_vertex
@@ -387,15 +387,15 @@ class Graph:
     def find_min_spanning_tree_undirected(self):
         '''Return the minimum spanning tree'''
         weight_matrix = self.to_weight_matrix()
-        selected_vertices = [0 for _ in range(self.vertices)]
+        selected_vertices = [0 for _ in range(self.number_of_vertices)]
         counter = 0
         selected_vertices[0] = True
-        while (counter < self.vertices - 1):
+        while (counter < self.number_of_vertices - 1):
             minimum = math.inf
             from_vertex = to_vertex = 0
-            for i in range(self.vertices):
+            for i in range(self.number_of_vertices):
                 if selected_vertices[i]:
-                    for j in range(self.vertices):
+                    for j in range(self.number_of_vertices):
                         if ((not selected_vertices[j]) and weight_matrix[i][j]):
                             if minimum > weight_matrix[i][j]:
                                 minimum = weight_matrix[i][j]
@@ -415,3 +415,7 @@ class Graph:
             return self.find_min_spanning_tree_directed()
         else:
             return self.find_min_spanning_tree_undirected()
+
+    def degree(self, vert: int):
+        '''Return degree of a given vertex'''
+        return sum( i.count(vert) for i in self.edges )
