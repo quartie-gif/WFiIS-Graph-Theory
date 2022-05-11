@@ -1,5 +1,8 @@
 import numpy as np
 
+from structures import AdjacencyList
+from structures.IncidenceMatrix import IncidenceMatrix
+
 
 class AdjacencyMatrix:
     '''Representation of a graph as adjacency matrix'''
@@ -18,23 +21,16 @@ class AdjacencyMatrix:
         return return_string
 
     def to_incidence_matrix(self):
-        '''Converts the adjacency matrix to incidence matrix'''
-        incidence_matrix = []
-        for i in range(self.size):
-            for j in range(i, self.size):
-                if self.adj_matrix[i][j] == 1:
-                    incidence_matrix.append(
-                        np.zeros(self.size, dtype=int))
-                    incidence_matrix[-1][i] = 1
-                    incidence_matrix[-1][j] = 1
-        incidence_matrix = np.transpose(incidence_matrix)
-        return incidence_matrix
+        adj_list = self.to_adjacency_list()
+        return  adj_list.to_incidence_matrix()
 
     def to_adjacency_list(self):
-        '''Converts the adjacency matrix to adjacency list'''
+
+        adjacency_list = AdjacencyList.AdjacencyList(size=self.size)
         neighbours_list = dict()
         for i, line in enumerate(self.adj_matrix):
             for j in range(len(line)):
                 if self.adj_matrix[i][j] == 1:
                     neighbours_list.setdefault(i, []).append(int(j))
-        return neighbours_list
+        adjacency_list.adjacency_dictionary = neighbours_list
+        return adjacency_list

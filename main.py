@@ -2,30 +2,14 @@ from ui_managment import *
 
 def task_1():
     print('zad 1.1')
-    lines = np.loadtxt("input/input_1.txt", dtype='i',
-                       delimiter=",", unpack=False)
-    print("Loading input adjacency matrix ... ")
-    utils.print_matrix(lines)
 
-    adj_list = AdjacencyList(size=len(lines))
-    adj_matrix = AdjacencyMatrix(matrix=lines, size=len(lines))
-    inc_matrix = IncidenceMatrix(matrix=lines, size=len(lines))
 
-    adj_list.adjacency_dictionary = adj_matrix.to_adjacency_list()
-    print(adj_list)
-    inc_matrix.in_matrix = adj_matrix.to_incidence_matrix()
-    print(inc_matrix)
+
 
     print('\nzad 1.2')
-    data_to_visualize = adj_list.generate_graph_data()
-    print(data_to_visualize)
-    graph = Graph(vertices=len(data_to_visualize)//2,
-                  edges=data_to_visualize, directed=False)
-
-    graph.plot(layout='circle', directed=False)
 
     print('\nzad 1.3a')
-    graph = Graph.generate_random_graph_ve(vertices=8, edges=6)
+    graph = Graph.generate_random_graph_ve(number_of_vertices=8, number_of_edges=6)
     graph.plot()
 
     print('\nzad 1.3b')
