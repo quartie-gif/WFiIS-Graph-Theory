@@ -84,7 +84,7 @@ class Graph:
         return random_graph
 
     @staticmethod
-    def generate_random_graph_vp(vertices: int, probability: float, weighted=False, directed=False):
+    def generate_random_graph_vp(number_of_vertices: int, probability: float, weighted=False, directed=False):
         '''
         vertices: int - number of vertices
         probability: float - given probability of generating each edge
@@ -93,17 +93,17 @@ class Graph:
         if probability < 0.0 or probability > 1.0:
             raise ValueError("Error, value of probability is invalid!")
 
-        if vertices <= 0:
+        if number_of_vertices <= 0:
             raise ValueError('Invalid number of vertices')
 
         random_graph = Graph()
         random_graph.weighted = weighted
         random_graph.directed = directed
-        random_graph.number_of_vertices = vertices
+        random_graph.number_of_vertices = number_of_vertices
         random_graph.edges = []
 
-        for vertice in range(vertices):
-            for vertice_to_align in range(vertices):
+        for vertice in range(number_of_vertices):
+            for vertice_to_align in range(number_of_vertices):
                 if vertice_to_align != vertice:
                     # print("vertice_to_align = ", vertice_to_align)
                     # print("vertice = ", vertice)

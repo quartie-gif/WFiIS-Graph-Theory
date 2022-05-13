@@ -1,21 +1,5 @@
 from ui_managment import *
 
-def task_1():
-    print('zad 1.1')
-
-
-
-
-    print('\nzad 1.2')
-
-    print('\nzad 1.3a')
-    graph = Graph.generate_random_graph_ve(number_of_vertices=8, number_of_edges=6)
-    graph.plot()
-
-    print('\nzad 1.3b')
-    random_probability_graph = Graph.generate_random_graph_vp(6, 0.3)
-    random_probability_graph.plot(layout='auto')
-
 
 def task_2():
     # print( 'zad 2.1' )
@@ -68,10 +52,10 @@ def task_2():
 def task_3():
     print('zad 3.1')
     graph = Graph.generate_random_graph_vp(
-        vertices=5, probability=0.2, weighted=True, directed=False)
+        number_of_vertices=5, probability=0.2, weighted=True, directed=False)
     while graph.is_connected() == False:
         graph = graph.generate_random_graph_vp(
-            vertices=5, probability=0.2, weighted=True, directed=False)
+            number_of_vertices=5, probability=0.2, weighted=True, directed=False)
     # graph.plot(weighted=True, directed=False)
 
     print('\nzad 3.2')
@@ -97,10 +81,9 @@ def task_3():
     graph.find_min_spanning_tree()
 
 
-
 def main():
     is_running = True
-    while( is_running ):
+    while(is_running):
         choice = main_menu()
         is_running = match_set(choice)
 

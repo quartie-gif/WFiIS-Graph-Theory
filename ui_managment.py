@@ -73,7 +73,7 @@ def match_set(choice: int):
 
 def set1_choice():
     lines = np.loadtxt("input/input_1.txt", dtype='i',
-                            delimiter=",", unpack=False)
+                       delimiter=",", unpack=False)
     adj_matrix = AdjacencyMatrix(matrix=lines, size=len(lines))
     adj_list = adj_matrix.to_adjacency_list()
     inc_matrix = adj_list.to_incidence_matrix()
@@ -92,7 +92,7 @@ def set1_choice():
 
             result = adj_matrix
             while True:
-                # cls()
+                cls()
                 print("===================== SET 1 =====================")
                 print("||  Choose which transformation you want open:")
 
@@ -109,7 +109,7 @@ def set1_choice():
 
                 option = int(input())
                 if option == 1:
-                    result   = adj_matrix.to_adjacency_list()
+                    result = adj_matrix.to_adjacency_list()
                     cls()
                 elif option == 2:
                     result = adj_matrix.to_incidence_matrix()
@@ -131,17 +131,44 @@ def set1_choice():
                 else:
                     print('Unexpected choice')
 
-
-
         elif ex == 2:
             data_to_visualize = adj_list.generate_graph_data()
             graph = Graph(vertices=len(data_to_visualize)//2,
-                        edges=data_to_visualize, directed=False)
+                          edges=data_to_visualize, directed=False)
 
             graph.plot(layout='circle', directed=False)
 
         elif ex == 3:
-            print('to refill')
+            while True:
+                cls()
+                print("===================== SET 1 =====================")
+                print("||  Choose which transformation you want open:")
+
+                print("||  (1) Model G(number_of_vertices, number_of_edges)")
+                print("||  (2) Model G(number_of_vertices, probability)")
+                print("||  (0) Exit ")
+
+                option = int(input())
+                if option == 1:
+                    number_of_vertices = int(
+                        input("Enter number of vertices: "))
+                    number_of_edges = int(input("Enter number of edges: "))
+                    graph = Graph.generate_random_graph_ve(
+                        number_of_vertices=number_of_vertices, number_of_edges=number_of_edges)
+                    graph.plot()
+                    cls()
+                elif option == 2:
+                    number_of_vertices = int(
+                        input("Enter number of vertices: "))
+                    probability = float(input("Enter probability: "))
+                    random_probability_graph = Graph.generate_random_graph_vp(
+                        number_of_vertices=number_of_vertices, probability=probability)
+                    random_probability_graph.plot(layout='auto')
+                    cls()
+                elif option == 0:
+                    break
+                else:
+                    print('Unexpected choice')
         elif ex == 0:
             break
         else:
