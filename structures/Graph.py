@@ -50,23 +50,30 @@ class Graph:
         return weights
 
     @staticmethod
-    def generate_random_graph_ve(vertices: int, edges: int, weighted=False, directed=False):
+    def generate_random_graph_ve(number_of_vertices: int, number_of_edges: int, weighted=False, directed=False):
         '''
         vertices: int - number of vertices
         edges: int - number of edges
         '''
 
-        if vertices < 0 or edges < 0:
+        if number_of_vertices < 0 or number_of_edges < 0:
             raise ValueError('Invalid number of edges')
 
+        if directed:
+            if number_of_edges > number_of_vertices * (number_of_vertices - 1):
+                raise ValueError('Too many edges')
+        else:
+            if number_of_edges > (number_of_vertices * (number_of_vertices - 1)/2):
+                raise ValueError('Too many edges')
         random_graph = Graph()
-        random_graph.number_of_vertices = vertices
+        random_graph.number_of_vertices = number_of_vertices
         random_graph.directed = directed
         random_graph.weighted = weighted
         random_graph.edges = []
-        for i in range(edges):
-            random_u_1 = random.randint(0, vertices-1)
-            random_u_2 = utils.random_choice_except(vertices, random_u_1)
+        while(random_graph.edges.__len__() < number_of_edges):
+            random_u_1 = random.randint(0, number_of_vertices-1)
+            random_u_2 = utils.random_choice_except(
+                number_of_vertices, random_u_1)
             # print(f'''random_u_1: {random_u_1}, random_u_2: {random_u_2}''')
             if (random_u_1, random_u_2) not in random_graph.edges:
                 random_graph.edges.append((random_u_1, random_u_2))
@@ -80,7 +87,7 @@ class Graph:
         return random_graph
 
     @staticmethod
-    def generate_random_graph_vp(vertices: int, probability: float, weighted=False, directed=False):
+    def generate_random_graph_vp(number_of_vertices: int, probability: float, weighted=False, directed=False):
         '''
         vertices: int - number of vertices
         probability: float - given probability of generating each edge
@@ -89,17 +96,17 @@ class Graph:
         if probability < 0.0 or probability > 1.0:
             raise ValueError("Error, value of probability is invalid!")
 
-        if vertices <= 0:
+        if number_of_vertices <= 0:
             raise ValueError('Invalid number of vertices')
 
         random_graph = Graph()
         random_graph.weighted = weighted
         random_graph.directed = directed
-        random_graph.number_of_vertices = vertices
+        random_graph.number_of_vertices = number_of_vertices
         random_graph.edges = []
 
-        for vertice in range(vertices):
-            for vertice_to_align in range(vertices):
+        for vertice in range(number_of_vertices):
+            for vertice_to_align in range(number_of_vertices):
                 if vertice_to_align != vertice:
                     # print("vertice_to_align = ", vertice_to_align)
                     # print("vertice = ", vertice)
@@ -453,6 +460,7 @@ class Graph:
 
     def degree(self, vert: int):
         '''Return degree of a given vertex'''
+
         return sum( i.count(vert) for i in self.edges )
 
 
@@ -470,4 +478,3 @@ class Graph:
          for _ in range(len(random_graph.edges)):
              random_graph.weighted_edges.append(random.randint(1, 10))
          return random_graph
-

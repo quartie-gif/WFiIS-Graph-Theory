@@ -6,9 +6,11 @@ from strings_cycles import *
 import utils
 import os
 
+
 def cls():
     '''Clear consol'''
-    os.system('cls' if os.name=='nt' else 'clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 
 def print_header():
     cls()
@@ -19,6 +21,7 @@ def print_header():
     print("||   Made by:                                  ||")
     print("||   K.Jagodzinski, L.Bartoszek, M.Piwek       ||")
     print("=================================================")
+
 
 def main_menu():
     '''Print and let user choose which set wants to open'''
@@ -33,7 +36,8 @@ def main_menu():
     print("||  (6) Set 6 - unaviable")
     print("||  (0) Exit ")
     return int(input())
-    
+
+
 def match_set(choice: int):
     '''Matching choice to proper set of excecices'''
     if choice == 1:
@@ -66,23 +70,109 @@ def match_set(choice: int):
         print('Unexpected choice')
         return True
 
+
 def set1_choice():
-    '''Picker of excecices from set 1'''
-    print_header()
-    print("===================== SET 1 =====================")
-    print("||  Choose which set of excecices you want open:")
-    print("||  (1) Exercise 1")
-    print("||  (2) Exercise 2")
-    print("||  (3) Exercise 3")
-    ex = int(input())
-    if ex == 1:
-        print('to refill')
-    elif ex == 2:
-        print('to refill')
-    elif ex == 3:
-        print('to refill')
-    else:
-        print('Unexpected choice')
+    lines = np.loadtxt("input/input_1.txt", dtype='i',
+                       delimiter=",", unpack=False)
+    adj_matrix = AdjacencyMatrix(matrix=lines, size=len(lines))
+    adj_list = adj_matrix.to_adjacency_list()
+    inc_matrix = adj_list.to_incidence_matrix()
+    while True:
+        cls()
+        '''Picker of excecices from set 1'''
+        print_header()
+        print("===================== SET 1 =====================")
+        print("||  Choose which set of excecices you want open:")
+        print("||  (1) Exercise 1")
+        print("||  (2) Exercise 2")
+        print("||  (3) Exercise 3")
+        print("||  (0) Exit ")
+        ex = int(input())
+        if ex == 1:
+
+            result = adj_matrix
+            while True:
+                cls()
+                print("===================== SET 1 =====================")
+                print("||  Choose which transformation you want open:")
+
+                print("||  (1) Adjancency Matrix -> Adjacency list  ")
+                print("||  (2) Adjancency Matrix -> Incidence Matrix")
+                print("||  (3) Incidence Matrix  -> Adjacency list  ")
+                print("||  (4) Incidence Matrix  -> Adjacency Matrix")
+                print("||  (5) Adjacency List    -> Adjacency Matrix")
+                print("||  (6) Adjacency List    -> Incidence Matrix")
+                print("||  (0) Exit ")
+
+                print("==================== RESULT =====================")
+                print(result.__str__())
+
+                option = int(input())
+                if option == 1:
+                    result = adj_matrix.to_adjacency_list()
+                    cls()
+                elif option == 2:
+                    result = adj_matrix.to_incidence_matrix()
+                    cls()
+                elif option == 3:
+                    result = inc_matrix.to_adjacency_list()
+                    cls()
+                elif option == 4:
+                    result = inc_matrix.to_adjacency_matrix()
+                    # cls()
+                elif option == 5:
+                    result = adj_list.to_adjacency_matrix()
+                    cls()
+                elif option == 6:
+                    result = adj_list.to_incidence_matrix()
+                    cls()
+                elif option == 0:
+                    break
+                else:
+                    print('Unexpected choice')
+
+        elif ex == 2:
+            data_to_visualize = adj_list.generate_graph_data()
+            graph = Graph(vertices=len(data_to_visualize)//2,
+                          edges=data_to_visualize, directed=False)
+
+            graph.plot(layout='circle', directed=False)
+
+        elif ex == 3:
+            while True:
+                cls()
+                print("===================== SET 1 =====================")
+                print("||  Choose which transformation you want open:")
+
+                print("||  (1) Model G(number_of_vertices, number_of_edges)")
+                print("||  (2) Model G(number_of_vertices, probability)")
+                print("||  (0) Exit ")
+
+                option = int(input())
+                if option == 1:
+                    number_of_vertices = int(
+                        input("Enter number of vertices: "))
+                    number_of_edges = int(input("Enter number of edges: "))
+                    graph = Graph.generate_random_graph_ve(
+                        number_of_vertices=number_of_vertices, number_of_edges=number_of_edges)
+                    graph.plot()
+                    cls()
+                elif option == 2:
+                    number_of_vertices = int(
+                        input("Enter number of vertices: "))
+                    probability = float(input("Enter probability: "))
+                    random_probability_graph = Graph.generate_random_graph_vp(
+                        number_of_vertices=number_of_vertices, probability=probability)
+                    random_probability_graph.plot(layout='auto')
+                    cls()
+                elif option == 0:
+                    break
+                else:
+                    print('Unexpected choice')
+        elif ex == 0:
+            break
+        else:
+            print('Unexpected choice')
 
 
 def set2_choice():
@@ -100,7 +190,7 @@ def set2_choice():
     if ex == 1:
         print("Insert a string (pattern: 3 2 2 2 1): ")
         cin = input()
-        in_str = list(map(int, list( cin.split(" ") )))
+        in_str = list(map(int, list(cin.split(" "))))
         print("Is graphical string ", is_graphical_string(in_str))
         if is_graphical_string(in_str):
             g = string_to_graph(in_str)
@@ -109,7 +199,7 @@ def set2_choice():
     elif ex == 2:
         print("Insert a graphical string: ")
         cin = input()
-        in_str = list(map(int, list( cin.split(" ") )))
+        in_str = list(map(int, list(cin.split(" "))))
         if is_graphical_string(in_str):
             g = string_to_graph(in_str)
             g.plot()
@@ -117,29 +207,29 @@ def set2_choice():
             cin = input()
             g.randomize(int(cin))
             g.plot()
-        else :
+        else:
             print("Given string is not graphical string")
 
     elif ex == 3:
         print("Insert a graphical string: ")
         cin = input()
-        in_str = list(map(int, list( cin.split(" ") )))
+        in_str = list(map(int, list(cin.split(" "))))
         if is_graphical_string(in_str):
             g = string_to_graph(in_str)
             g.plot()
             print(components_listing(g))
-        else :
+        else:
             print("Given string is not graphical string")
 
     elif ex == 4:
         print("Insert a graphical string: ")
         cin = input()
-        in_str = list(map(int, list( cin.split(" ") )))
+        in_str = list(map(int, list(cin.split(" "))))
         if is_graphical_string(in_str):
             g = string_to_graph(in_str)
             g.plot()
             print(eulerian_cycle(g))
-        else :
+        else:
             print("Given string is not graphical string")
 
     elif ex == 5:
@@ -156,7 +246,7 @@ def set2_choice():
             v = int(input())
             print("Insert edges: ")
             e = int(input())
-            g = Graph.generate_random_graph_ve(v,e)
+            g = Graph.generate_random_graph_ve(v, e)
             g.plot()
             print('Is recived graph appropriate? [Yes/No]')
             is_ok = str(input())
