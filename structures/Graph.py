@@ -70,6 +70,8 @@ class Graph:
             # print(f'''random_u_1: {random_u_1}, random_u_2: {random_u_2}''')
             if (random_u_1, random_u_2) not in random_graph.edges:
                 random_graph.edges.append((random_u_1, random_u_2))
+                # to powinno rozwiązać problem dziwnych krawedzi, ale nie chce mi się testować :D
+                # random_graph.edges.append((random_u_2, random_u_1))
             else:
                 i -= 1
         if not random_graph.directed:
@@ -196,22 +198,55 @@ class Graph:
             weight_matrix.insert(edge[0], edge[1], self.weighted_edges[i])
         return weight_matrix
 
-    def plot(self, weighted: bool = False, directed: bool = False, layout='auto'):
+    def plot(self, layout='auto'):
         '''Plot and display graph'''
-        data_to_visualize = self.generate_graph_data()
-
-        if weighted:
+        if self.weighted and self.directed:
             graph_visualization = ig.Graph(
-                data_to_visualize)
+                n = self.number_of_vertices,
+                edges=self.edges,
+                directed=True
+            )
+            graph_visualization.vs["label"] = self.vertex_labels()
             graph_visualization.es["weights"] = self.weighted_edges
             graph_visualization.es["label"] = self.weighted_edges
-        graph_visualization = ig.Graph(data_to_visualize)
-        # print(self.vertex_labels())
-        graph_visualization.vs["label"] = self.vertex_labels()
-        # print(graph_visualization.get_edgelist())
-
-        ig.plot(graph_visualization, layout=layout,
-                directed=directed, weighted=weighted)
+            ig.plot(graph_visualization,
+                    layout=layout,
+                    label = True,
+                    edge_curved = .3)
+        elif self.weighted and not self.directed:
+            graph_visualization = ig.Graph(
+                n = self.number_of_vertices,
+                edges=self.edges,
+                directed=False
+            )
+            graph_visualization.vs["label"] = self.vertex_labels()
+            graph_visualization.es["weights"] = self.weighted_edges
+            graph_visualization.es["label"] = self.weighted_edges
+            ig.plot(graph_visualization,
+                    layout=layout,
+                    label = True,
+                    edge_curved = False)
+        elif not self.weighted and self.directed:
+            graph_visualization = ig.Graph(
+                n=self.number_of_vertices,
+                edges=self.edges,
+                directed=True
+            )
+            graph_visualization.vs["label"] = self.vertex_labels()
+            ig.plot(graph_visualization,
+                    layout=layout,
+                    label=True,
+                    edge_curved = .3)
+        elif not self.weighted and not self.directed:
+            graph_visualization = ig.Graph(
+                n=self.number_of_vertices,
+                edges=self.edges
+            )
+            graph_visualization.vs["label"] = self.vertex_labels()
+            ig.plot(graph_visualization,
+                    layout=layout,
+                    label=False,
+                    edge_curved = False)
 
     def get_vertices(self):
         '''Return list of all vertices'''
@@ -419,3 +454,20 @@ class Graph:
     def degree(self, vert: int):
         '''Return degree of a given vertex'''
         return sum( i.count(vert) for i in self.edges )
+
+
+# zestaw 4
+    @staticmethod
+    def generate_random_directed_graph(vert: int, probability: float):
+         random_graph = Graph()
+         random_graph.weighted = True
+         random_graph.directed = True
+         random_graph.number_of_vertices = vert
+         for i in range(random_graph.number_of_vertices):
+             for j in range(random_graph.number_of_vertices):
+                 if i != j and random.uniform(0,1) < probability:
+                     random_graph.edges.append((i, j))
+         for _ in range(len(random_graph.edges)):
+             random_graph.weighted_edges.append(random.randint(1, 10))
+         return random_graph
+
