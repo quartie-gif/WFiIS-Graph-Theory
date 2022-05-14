@@ -81,6 +81,7 @@ def task_3():
     graph.find_min_spanning_tree()
 
 
+
 def main():
     is_running = True
     while(is_running):

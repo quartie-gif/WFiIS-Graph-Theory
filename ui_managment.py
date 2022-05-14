@@ -206,7 +206,7 @@ def set2_choice():
             print("How many randomizations You wants to make? ")
             cin = input()
             g.randomize(int(cin))
-            g.plot()
+            # g.plot()
         else:
             print("Given string is not graphical string")
 
@@ -216,21 +216,33 @@ def set2_choice():
         in_str = list(map(int, list(cin.split(" "))))
         if is_graphical_string(in_str):
             g = string_to_graph(in_str)
-            g.plot()
+            g.plot(color_vs=all_components(g))
             print(components_listing(g))
         else:
             print("Given string is not graphical string")
 
     elif ex == 4:
-        print("Insert a graphical string: ")
-        cin = input()
-        in_str = list(map(int, list(cin.split(" "))))
-        if is_graphical_string(in_str):
-            g = string_to_graph(in_str)
+        while (True):
+            print("Insert verticles: ")
+            v = int(input())
+            print("Insert edges: ")
+            e = int(input())
+            g = Graph.generate_random_graph_ve(v, e)
             g.plot()
-            print(eulerian_cycle(g))
-        else:
-            print("Given string is not graphical string")
+            print('Is recived graph appropriate? [Yes/No]')
+            is_ok = str(input())
+            if is_ok == "Yes":
+                break
+        print(eulerian_cycle(g))
+        # print("Insert a graphical string: ")
+        # cin = input()
+        # in_str = list(map(int, list(cin.split(" "))))
+        # if is_graphical_string(in_str):
+        #     g = string_to_graph(in_str)
+        #     g.plot()
+        #     print(eulerian_cycle(g))
+        # else:
+        #     print("Given string is not graphical string")
 
     elif ex == 5:
         print("Insert n - verticles: ")

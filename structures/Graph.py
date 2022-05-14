@@ -202,7 +202,7 @@ class Graph:
             weight_matrix.insert(edge[0], edge[1], self.weighted_edges[i])
         return weight_matrix
 
-    def plot(self, layout='auto'):
+    def plot(self, layout='auto', color_vs: dict = {}):
         '''Plot and display graph'''
         if self.weighted and self.directed:
             graph_visualization = ig.Graph(
@@ -213,10 +213,8 @@ class Graph:
             graph_visualization.vs["label"] = self.vertex_labels()
             graph_visualization.es["weights"] = self.weighted_edges
             graph_visualization.es["label"] = self.weighted_edges
-            ig.plot(graph_visualization,
-                    layout=layout,
-                    label = True,
-                    edge_curved = .3)
+            label = True
+            edge_curved = .3
         elif self.weighted and not self.directed:
             graph_visualization = ig.Graph(
                 n = self.number_of_vertices,
@@ -226,10 +224,8 @@ class Graph:
             graph_visualization.vs["label"] = self.vertex_labels()
             graph_visualization.es["weights"] = self.weighted_edges
             graph_visualization.es["label"] = self.weighted_edges
-            ig.plot(graph_visualization,
-                    layout=layout,
-                    label = True,
-                    edge_curved = False)
+            label = True
+            edge_curved = False
         elif not self.weighted and self.directed:
             graph_visualization = ig.Graph(
                 n=self.number_of_vertices,
@@ -237,20 +233,29 @@ class Graph:
                 directed=True
             )
             graph_visualization.vs["label"] = self.vertex_labels()
-            ig.plot(graph_visualization,
-                    layout=layout,
-                    label=True,
-                    edge_curved = .3)
+            label = True
+            edge_curved = .3
         elif not self.weighted and not self.directed:
             graph_visualization = ig.Graph(
                 n=self.number_of_vertices,
                 edges=self.edges
             )
             graph_visualization.vs["label"] = self.vertex_labels()
-            ig.plot(graph_visualization,
-                    layout=layout,
-                    label=False,
-                    edge_curved = False)
+            label = False;
+            edge_curved = False
+        if len(color_vs) > 0:
+            for vs_key in color_vs.keys():
+                r = random.randint(0, 255)/255
+                g = random.randint(0, 255)/255
+                b = random.randint(0, 255)/255
+                rgb = [r, g, b]
+                print (rgb)
+                for vs in color_vs[vs_key]:
+                    graph_visualization.vs[vs]['color'] = rgb
+        ig.plot(graph_visualization,
+                layout=layout,
+                label = label,
+                edge_curved = edge_curved)
 
     def get_vertices(self):
         '''Return list of all vertices'''
@@ -328,6 +333,7 @@ class Graph:
                 ):
                     self.edges[rand_1], self.edges[rand_2] = new_1, new_2
                     to_change -= 1
+            self.plot()
 
     def get_shortest_path_directed(self, start_vertex: int, print_solutions: bool = False):
         '''Return shortest path from start to all other vertices'''
