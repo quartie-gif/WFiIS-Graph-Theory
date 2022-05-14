@@ -30,8 +30,8 @@ def main_menu():
     print("||  Choose which set of excecices you want open:")
     print("||  (1) Set 1 - undirected graphs")
     print("||  (2) Set 2 - graph string, graph cycles")
-    print("||  (3) Set 3 - directed graphs")
-    print("||  (4) Set 4 - unaviable ")
+    print("||  (3) Set 3 - weighted graphs")
+    print("||  (4) Set 4 - directed graphs ")
     print("||  (5) Set 5 - unaviable")
     print("||  (6) Set 6 - unaviable")
     print("||  (0) Exit ")
@@ -53,7 +53,7 @@ def match_set(choice: int):
         os.system("pause")
         return True
     elif choice == 4:
-        print('unaviable')
+        set4_choice()
         os.system("pause")
         return True
     elif choice == 5:
@@ -279,6 +279,32 @@ def set3_choice():
     elif ex == 4:
         print('to refill')
     elif ex == 5:
+        print('to refill')
+    else:
+        print('Unexpected choice')
+        return True
+
+def set4_choice():
+    print_header()
+    print("===================== SET 4 =====================")
+    print("||  Choose which set of excecices you want open:")
+    print("||  (1) Exercise 1")
+    print("||  (2) Exercise 2")
+    print("||  (3) Exercise 3")
+    print("||  (4) Exercise 4")
+    ex = int(input())
+    if ex == 1:
+        print("Insert verticles: ")
+        v = int(input())
+        print("Insert probability: ")
+        p = float(input())
+        g = Graph.generate_random_directed_graph(v, p)
+        g.plot()
+    elif ex == 2:
+        print('to refill')
+    elif ex == 3:
+        print('to refill')
+    elif ex == 4:
         print('to refill')
     else:
         print('Unexpected choice')
