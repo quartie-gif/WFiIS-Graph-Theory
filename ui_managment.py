@@ -136,7 +136,7 @@ def set1_choice():
             graph = Graph(vertices=len(data_to_visualize)//2,
                           edges=data_to_visualize, directed=False)
 
-            graph.plot(layout='circle', directed=False)
+            graph.plot(layout='circle')
 
         elif ex == 3:
             while True:

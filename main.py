@@ -56,7 +56,7 @@ def task_3():
     while graph.is_connected() == False:
         graph = graph.generate_random_graph_vp(
             number_of_vertices=5, probability=0.2, weighted=True, directed=False)
-    # graph.plot(weighted=True, directed=False)
+    # graph.plot(weighted=True)
 
     print('\nzad 3.2')
     graph.get_shortest_path(0, print_solutions=True)
@@ -75,7 +75,7 @@ def task_3():
         f'Centrum minimax = {center_minimax} (odleglosc od najdalszego: {minimax})')
 
     print('\nzad 3.5')
-    graph.plot(weighted=True, directed=False)
+    graph.plot()
     print(f'Weights: {graph.weighted_edges}')
     print('Edges: ', graph.get_edges())
     graph.find_min_spanning_tree()

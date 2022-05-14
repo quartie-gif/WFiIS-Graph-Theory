@@ -202,22 +202,55 @@ class Graph:
             weight_matrix.insert(edge[0], edge[1], self.weighted_edges[i])
         return weight_matrix
 
-    def plot(self, weighted: bool = False, directed: bool = False, layout='auto'):
+    def plot(self, layout='auto'):
         '''Plot and display graph'''
-        data_to_visualize = self.generate_graph_data()
-
-        if weighted:
+        if self.weighted and self.directed:
             graph_visualization = ig.Graph(
-                data_to_visualize)
+                n = self.number_of_vertices,
+                edges=self.edges,
+                directed=True
+            )
+            graph_visualization.vs["label"] = self.vertex_labels()
             graph_visualization.es["weights"] = self.weighted_edges
             graph_visualization.es["label"] = self.weighted_edges
-        graph_visualization = ig.Graph(data_to_visualize)
-        # print(self.vertex_labels())
-        graph_visualization.vs["label"] = self.vertex_labels()
-        # print(graph_visualization.get_edgelist())
-
-        ig.plot(graph_visualization, layout=layout,
-                directed=directed, weighted=weighted)
+            ig.plot(graph_visualization,
+                    layout=layout,
+                    label = True,
+                    edge_curved = .3)
+        elif self.weighted and not self.directed:
+            graph_visualization = ig.Graph(
+                n = self.number_of_vertices,
+                edges=self.edges,
+                directed=False
+            )
+            graph_visualization.vs["label"] = self.vertex_labels()
+            graph_visualization.es["weights"] = self.weighted_edges
+            graph_visualization.es["label"] = self.weighted_edges
+            ig.plot(graph_visualization,
+                    layout=layout,
+                    label = True,
+                    edge_curved = False)
+        elif not self.weighted and self.directed:
+            graph_visualization = ig.Graph(
+                n=self.number_of_vertices,
+                edges=self.edges,
+                directed=True
+            )
+            graph_visualization.vs["label"] = self.vertex_labels()
+            ig.plot(graph_visualization,
+                    layout=layout,
+                    label=True,
+                    edge_curved = .3)
+        elif not self.weighted and not self.directed:
+            graph_visualization = ig.Graph(
+                n=self.number_of_vertices,
+                edges=self.edges
+            )
+            graph_visualization.vs["label"] = self.vertex_labels()
+            ig.plot(graph_visualization,
+                    layout=layout,
+                    label=False,
+                    edge_curved = False)
 
     def get_vertices(self):
         '''Return list of all vertices'''
