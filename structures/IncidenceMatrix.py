@@ -25,7 +25,6 @@ class IncidenceMatrix:
             edge = []
             for i in range(self.row_size):
                 if self.in_matrix[i][j] == 1:
-                    print(self.in_matrix)
                     edge.append(i)
             edge.sort()
             if len(edge) == 2:
