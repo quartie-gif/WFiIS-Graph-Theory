@@ -154,7 +154,7 @@ def set1_choice():
                     number_of_edges = int(input("Enter number of edges: "))
                     graph = Graph.generate_random_graph_ve(
                         number_of_vertices=number_of_vertices, number_of_edges=number_of_edges)
-                    graph.plot()
+                    graph.plot(layout='circle')
                     cls()
                 elif option == 2:
                     number_of_vertices = int(
@@ -162,7 +162,7 @@ def set1_choice():
                     probability = float(input("Enter probability: "))
                     random_probability_graph = Graph.generate_random_graph_vp(
                         number_of_vertices=number_of_vertices, probability=probability)
-                    random_probability_graph.plot(layout='auto')
+                    random_probability_graph.plot(layout='circle')
                     cls()
                 elif option == 0:
                     break
