@@ -1,6 +1,5 @@
 from ui_managment import *
 
-
 def task_2():
     # print( 'zad 2.1' )
     # str_1 = [4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2]
@@ -81,12 +80,20 @@ def task_3():
     graph.find_min_spanning_tree()
 
 
+
 def main():
     is_running = True
     while(is_running):
         choice = main_menu()
         is_running = match_set(choice)
 
-
 if __name__ == "__main__":
     main()
+
+# 1 2 4
+# 0 2 3 4 6
+# 5
+# 1 6
+# 6
+# 1
+# 5

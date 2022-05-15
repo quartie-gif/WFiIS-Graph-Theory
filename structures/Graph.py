@@ -185,7 +185,7 @@ class Graph:
 
     def vertex_labels(self):
         '''Generate vertex labels'''
-        labels = [i for i in range(self.number_of_vertices)]
+        labels = [i+1 for i in range(self.number_of_vertices)]
         return labels
 
     def to_adjacency_list(self):
@@ -202,7 +202,7 @@ class Graph:
             weight_matrix.insert(edge[0], edge[1], self.weighted_edges[i])
         return weight_matrix
 
-    def plot(self, layout='auto'):
+    def plot(self, layout='auto', color_vs: dict = {}):
         '''Plot and display graph'''
         if self.weighted and self.directed:
             graph_visualization = ig.Graph(
@@ -213,10 +213,8 @@ class Graph:
             graph_visualization.vs["label"] = self.vertex_labels()
             graph_visualization.es["weights"] = self.weighted_edges
             graph_visualization.es["label"] = self.weighted_edges
-            ig.plot(graph_visualization,
-                    layout=layout,
-                    label = True,
-                    edge_curved = .3)
+            label = True
+            edge_curved = True
         elif self.weighted and not self.directed:
             graph_visualization = ig.Graph(
                 n = self.number_of_vertices,
@@ -226,10 +224,8 @@ class Graph:
             graph_visualization.vs["label"] = self.vertex_labels()
             graph_visualization.es["weights"] = self.weighted_edges
             graph_visualization.es["label"] = self.weighted_edges
-            ig.plot(graph_visualization,
-                    layout=layout,
-                    label = True,
-                    edge_curved = False)
+            label = True
+            edge_curved = False
         elif not self.weighted and self.directed:
             graph_visualization = ig.Graph(
                 n=self.number_of_vertices,
@@ -237,20 +233,30 @@ class Graph:
                 directed=True
             )
             graph_visualization.vs["label"] = self.vertex_labels()
-            ig.plot(graph_visualization,
-                    layout=layout,
-                    label=True,
-                    edge_curved = .3)
+            label = True
+            edge_curved = True
         elif not self.weighted and not self.directed:
             graph_visualization = ig.Graph(
                 n=self.number_of_vertices,
                 edges=self.edges
             )
             graph_visualization.vs["label"] = self.vertex_labels()
-            ig.plot(graph_visualization,
-                    layout=layout,
-                    label=False,
-                    edge_curved = False)
+            label = False;
+            edge_curved = False
+        if len(color_vs) > 0:
+            for vs_key in color_vs.keys():
+                r = random.randint(0, 255)/255
+                g = random.randint(0, 255)/255
+                b = random.randint(0, 255)/255
+                rgb = [r, g, b]
+                for vs in color_vs[vs_key]:
+                    graph_visualization.vs[vs]['color'] = rgb
+        ig.plot(graph_visualization,
+                layout=layout,
+                label = label,
+                edge_curved = edge_curved,
+                vertex_size = 50,
+                margin=50)
 
     def get_vertices(self):
         '''Return list of all vertices'''
@@ -328,6 +334,7 @@ class Graph:
                 ):
                     self.edges[rand_1], self.edges[rand_2] = new_1, new_2
                     to_change -= 1
+            self.plot()
 
     def get_shortest_path_directed(self, start_vertex: int, print_solutions: bool = False):
         '''Return shortest path from start to all other vertices'''
@@ -458,18 +465,12 @@ class Graph:
     def degree(self, vert: int):
         '''Return degree of a given vertex'''
         return sum(i.count(vert) for i in self.edges)
-
-# zestaw 4
     @staticmethod
-    def generate_random_directed_graph(vert: int, probability: float):
-         random_graph = Graph()
-         random_graph.weighted = True
-         random_graph.directed = True
-         random_graph.number_of_vertices = vert
-         for i in range(random_graph.number_of_vertices):
-             for j in range(random_graph.number_of_vertices):
-                 if i != j and random.uniform(0,1) < probability:
-                     random_graph.edges.append((i, j))
-         for _ in range(len(random_graph.edges)):
-             random_graph.weighted_edges.append(random.randint(1, 10))
-         return random_graph
+    def transpose(graph):
+        g = Graph(vertices=graph.number_of_vertices,
+                  edges=[],
+                  directed=True,
+                  weighted=False)
+        for edge in graph.edges:
+            g.edges.append((edge[1], edge[0]))
+        return g
