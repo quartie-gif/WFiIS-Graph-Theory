@@ -133,7 +133,7 @@ def set1_choice():
 
         elif ex == 2:
             data_to_visualize = adj_list.generate_graph_data()
-            graph = Graph(vertices=len(data_to_visualize)//2,
+            graph = Graph(vertices=len(adj_list.adjacency_dictionary),
                           edges=data_to_visualize, directed=False)
 
             graph.plot(layout='circle')

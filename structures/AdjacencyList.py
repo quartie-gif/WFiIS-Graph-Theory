@@ -52,12 +52,11 @@ class AdjacencyList:
         '''Convert adjacency list to incidence matrix'''
         node_count = len(self.adjacency_dictionary)
         edge_count = 0
-        for parent_vertex, vertices in self.adjacency_dictionary.items():
+        for _, vertices in self.adjacency_dictionary.items():
             edge_count += len(vertices)
         edge_count = edge_count // 2
         incident_matrix = np.zeros((node_count, edge_count), dtype=int)
-        current_row = 0
-        edge_index_map = {}
+        edge_index_map = {} # map to store column index of each edge
         for node_index in range(0, node_count):
             for neighbor_index in self.adjacency_dictionary[node_index]:
                 edge = tuple(sorted([node_index, neighbor_index]))
