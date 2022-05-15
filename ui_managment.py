@@ -1,5 +1,4 @@
 from secrets import choice
-from tkinter import W
 from matplotlib.pyplot import plot
 from structures import *
 from strings_cycles import *
@@ -310,10 +309,25 @@ def set4_choice():
         v = int(input())
         print("Insert probability: ")
         p = float(input())
-        g = Graph.generate_random_directed_graph(v, p)
+        g = DirectedGraphs.generate_random_directed_graph(v, p)
         g.plot()
     elif ex == 2:
-        print('to refill')
+        print("Kosaraju algorithm")
+        file = open("input/input_4.2.txt", "r")
+        list = []
+        line = file.readline()
+        while line:
+            list.append(map(int, line.split(" ")))
+            line = file.readline()
+        adjencyList = AdjacencyList(size=len(list))
+        for i in range(len(list)):
+            adjencyList.adjacency_dictionary.setdefault(i, list[i])
+        g = Graph(vertices=adjencyList.size, directed=True, weighted=False)
+        g.edges = adjencyList.generate_graph_data(directed=True)
+        g.plot(color_vs=DirectedGraphs.kosaraju(g))
+
+        gr = DirectedGraphs.generate_random_directed_graph(8, .2)
+        gr.plot(color_vs=DirectedGraphs.kosaraju(gr))
     elif ex == 3:
         print('to refill')
     elif ex == 4:
