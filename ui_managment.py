@@ -190,7 +190,7 @@ def set2_choice():
         print("Insert a string (pattern: 3 2 2 2 1): ")
         cin = input()
         in_str = list(map(int, list(cin.split(" "))))
-        print("Is graphical string ", is_graphical_string(in_str))
+        print("Is graphical string: ", is_graphical_string(in_str))
         if is_graphical_string(in_str):
             g = string_to_graph(in_str)
             g.plot()
@@ -201,7 +201,7 @@ def set2_choice():
         in_str = list(map(int, list(cin.split(" "))))
         if is_graphical_string(in_str):
             g = string_to_graph(in_str)
-            g.plot()
+            g.plot(layout='circle')
             print("How many randomizations You wants to make? ")
             cin = input()
             g.randomize(int(cin))
@@ -233,15 +233,6 @@ def set2_choice():
             if is_ok == "Yes":
                 break
         print(eulerian_cycle(g))
-        # print("Insert a graphical string: ")
-        # cin = input()
-        # in_str = list(map(int, list(cin.split(" "))))
-        # if is_graphical_string(in_str):
-        #     g = string_to_graph(in_str)
-        #     g.plot()
-        #     print(eulerian_cycle(g))
-        # else:
-        #     print("Given string is not graphical string")
 
     elif ex == 5:
         print("Insert n - verticles: ")
@@ -264,7 +255,6 @@ def set2_choice():
             if is_ok == "Yes":
                 break
         print(hamilotnian_cycle(g))
-        g.plot()
 
     else:
         print('Unexpected choice')

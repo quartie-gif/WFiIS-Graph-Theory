@@ -334,7 +334,8 @@ class Graph:
                 ):
                     self.edges[rand_1], self.edges[rand_2] = new_1, new_2
                     to_change -= 1
-            self.plot()
+            self.plot(layout='circle')
+
 
     def get_shortest_path_directed(self, start_vertex: int, print_solutions: bool = False):
         '''Return shortest path from start to all other vertices'''

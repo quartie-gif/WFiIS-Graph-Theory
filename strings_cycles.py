@@ -98,7 +98,6 @@ def components_listing(in_graph: Graph):
     max_size = -1
     max_id = -1
     data = all_components(in_graph)
-    print(data)
     for key, val in data.items():
         out += f"{key}) " + " ".join(map(str, val)) + '\n'
         if len(val) > max_size:
@@ -114,7 +113,7 @@ def eulerian_cycle(in_graph: Graph):
         degree = in_graph.degree(i)
         if degree > 0:
             non_zero.append(i)
-        elif degree % 2 != 0:
+        if (degree%2 != 0):
             return "Degree of all vertices must be even number - no eulerian cycle in graph"
     if len(non_zero) != greatest_components_size(in_graph):
         return "No eulerian cycle in graph - isolated edges"

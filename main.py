@@ -84,8 +84,12 @@ def task_3():
 def main():
     is_running = True
     while(is_running):
-        choice = main_menu()
-        is_running = match_set(choice)
+        try:
+            choice = main_menu()
+            is_running = match_set(choice)
+        except Exception as e:
+            print( e )
+            os.system("pause")
 
 if __name__ == "__main__":
     main()
