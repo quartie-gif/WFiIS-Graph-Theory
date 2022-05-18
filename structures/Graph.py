@@ -36,6 +36,7 @@ class Graph:
 
     def randomize_weights(self, start: int, stop: int):
         '''Generate random weights for the edges'''
+        self.weighted = True
         self.weighted_edges.clear()
         for _ in range(len(self.edges)):
             self.weighted_edges.append(random.randint(start, stop))
@@ -185,7 +186,7 @@ class Graph:
 
     def vertex_labels(self):
         '''Generate vertex labels'''
-        labels = [i+1 for i in range(self.number_of_vertices)]
+        labels = [i for i in range(self.number_of_vertices)]
         return labels
 
     def to_adjacency_list(self):

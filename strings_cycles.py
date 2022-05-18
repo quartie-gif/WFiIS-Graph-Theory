@@ -58,7 +58,7 @@ def all_components(in_graph: Graph):
     '''Find all components'''
     verts = in_graph.get_vertices()
     nr = 0
-    comp = { i: -1  for i in verts }
+    comp = { i: -1 for i in verts }
     for key in comp.keys():
         if comp[key] == -1:
             nr += 1
