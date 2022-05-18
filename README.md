@@ -1,8 +1,9 @@
 # WFiIS-Graph-Theory
 
-One of the features of the IGraph package doesn't work. To run our project you need to make two changes. Find your Python IGraph drawing directory (e.g. C:\Users\usr\AppData\Local\Programs\Python\Python39\Lib\site-packages\igraph\drawing) and in file edge.py edit: 
+One of the features of the IGraph package doesn't work. To run our project you need to make two changes. Find your Python IGraph drawing directory (e.g. C:\Users\usr\AppData\Local\Programs\Python\Python39\Lib\site-packages\igraph\drawing) and in file edge.py edit:
+
 line 131 to:
-def get_label_position(self, edge, src_vertex, dest_vertex, curvature):
+             def get_label_position(self, edge, src_vertex, dest_vertex, curvature):
 
 lines 159-162 
         if curvature:
