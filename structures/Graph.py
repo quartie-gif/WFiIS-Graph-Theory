@@ -185,7 +185,7 @@ class Graph:
 
     def vertex_labels(self):
         '''Generate vertex labels'''
-        labels = [i+1 for i in range(self.number_of_vertices)]
+        labels = [i for i in range(self.number_of_vertices)]
         return labels
 
     def to_adjacency_list(self):
