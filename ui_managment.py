@@ -10,6 +10,45 @@ def cls():
     '''Clear consol'''
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def generate_matrix():
+    print("=================================================")
+    print("||  (1) Graphical string")
+    print("||  (2) Random matrix (vr)")
+    print("||  (3) Random matrix (vp)")
+    choice = int(input())
+    if choice == 1:
+        print("Insert a string (pattern: 3 2 2 2 1): ")
+        cin = input()
+        in_str = list(map(int, list(cin.split(" "))))
+        print("Is graphical string: ", is_graphical_string(in_str))
+        if is_graphical_string(in_str):
+            g = string_to_graph(in_str)
+            g.plot()
+    elif choice == 2:
+        while(True):
+            print("Insert verticles: ")
+            v = int(input())
+            print("Insert edges: ")
+            e = int(input())
+            g = Graph.generate_random_graph_ve(v, e)
+            g.plot()
+            print('Is recived graph appropriate? [Yes/No]')
+            is_ok = str(input())
+            if is_ok == "Yes":
+                break
+    elif choice == 3:
+        while(True):
+            print("Insert verticles: ")
+            v = int(input())
+            print("Insert probability: ")
+            p = int(input())
+            g = Graph.generate_random_graph_vp(v, p)
+            g.plot()
+            print('Is recived graph appropriate? [Yes/No]')
+            is_ok = str(input())
+            if is_ok == "Yes":
+                break
+    return g
 
 def print_header():
     cls()
@@ -29,10 +68,6 @@ def main_menu():
     print("||  Choose which set of excecices you want open:")
     print("||  (1) Set 1 - undirected graphs")
     print("||  (2) Set 2 - graph string, graph cycles")
-    print("||  (3) Set 3 - weighted graphs")
-    print("||  (4) Set 4 - directed graphs ")
-    print("||  (5) Set 5 - unaviable")
-    print("||  (6) Set 6 - unaviable")
     print("||  (0) Exit ")
     return int(input())
 
@@ -47,24 +82,6 @@ def match_set(choice: int):
         set2_choice()
         os.system("pause")
         return True
-    elif choice == 3:
-        set3_choice()
-        os.system("pause")
-        return True
-    elif choice == 4:
-        set4_choice()
-        os.system("pause")
-        return True
-    elif choice == 5:
-        print('unaviable')
-        os.system("pause")
-        return True
-    elif choice == 6:
-        print('unaviable')
-        os.system("pause")
-        return True
-    elif choice == 0:
-        return False
     else:
         print('Unexpected choice')
         return True
@@ -221,17 +238,7 @@ def set2_choice():
             print("Given string is not graphical string")
 
     elif ex == 4:
-        while (True):
-            print("Insert verticles: ")
-            v = int(input())
-            print("Insert edges: ")
-            e = int(input())
-            g = Graph.generate_random_graph_ve(v, e)
-            g.plot()
-            print('Is recived graph appropriate? [Yes/No]')
-            is_ok = str(input())
-            if is_ok == "Yes":
-                break
+        g = generate_matrix()
         print(eulerian_cycle(g))
 
     elif ex == 5:
@@ -243,85 +250,8 @@ def set2_choice():
         g.plot()
 
     elif ex == 6:
-        while(True):
-            print("Insert verticles: ")
-            v = int(input())
-            print("Insert edges: ")
-            e = int(input())
-            g = Graph.generate_random_graph_ve(v, e)
-            g.plot()
-            print('Is recived graph appropriate? [Yes/No]')
-            is_ok = str(input())
-            if is_ok == "Yes":
-                break
+        g = generate_matrix()
         print(hamilotnian_cycle(g))
 
     else:
         print('Unexpected choice')
-
-
-def set3_choice():
-    '''Picker of excecices from set 3'''
-    print_header()
-    print("===================== SET 3 =====================")
-    print("||  Choose which set of excecices you want open:")
-    print("||  (1) Exercise 1")
-    print("||  (2) Exercise 2")
-    print("||  (3) Exercise 3")
-    print("||  (4) Exercise 4")
-    print("||  (5) Exercise 5")
-    ex = int(input())
-    if ex == 1:
-        print('to refill')
-    elif ex == 2:
-        print('to refill')
-    elif ex == 3:
-        print('to refill')
-    elif ex == 4:
-        print('to refill')
-    elif ex == 5:
-        print('to refill')
-    else:
-        print('Unexpected choice')
-        return True
-
-def set4_choice():
-    print_header()
-    print("===================== SET 4 =====================")
-    print("||  Choose which set of excecices you want open:")
-    print("||  (1) Exercise 1")
-    print("||  (2) Exercise 2")
-    print("||  (3) Exercise 3")
-    print("||  (4) Exercise 4")
-    ex = int(input())
-    if ex == 1:
-        print("Insert verticles: ")
-        v = int(input())
-        print("Insert probability: ")
-        p = float(input())
-        g = DirectedGraphs.generate_random_directed_graph(v, p)
-        g.plot()
-    elif ex == 2:
-        print("Kosaraju algorithm")
-        file = open("input/input_4.2.txt", "r")
-        list = []
-        line = file.readline()
-        while line:
-            list.append(map(int, line.split(" ")))
-            line = file.readline()
-        adjencyList = AdjacencyList(size=len(list))
-        for i in range(len(list)):
-            adjencyList.adjacency_dictionary.setdefault(i, list[i])
-        g = Graph(vertices=adjencyList.size, directed=True, weighted=False)
-        g.edges = adjencyList.generate_graph_data(directed=True)
-        g.plot(color_vs=DirectedGraphs.kosaraju(g))
-
-        gr = DirectedGraphs.generate_random_directed_graph(8, .2)
-        gr.plot(color_vs=DirectedGraphs.kosaraju(gr))
-    elif ex == 3:
-        print('to refill')
-    elif ex == 4:
-        print('to refill')
-    else:
-        print('Unexpected choice')
-        return True
