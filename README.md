@@ -20,3 +20,5 @@ lines 489-491
                 edge, src_vertex, dest_vertex, kwds.get("edge_curved")
             )
 ```
+to run use command in root folder:
+python3 main.py
