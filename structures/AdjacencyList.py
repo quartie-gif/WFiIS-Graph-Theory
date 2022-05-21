@@ -2,14 +2,14 @@ import numpy as np
 
 from structures import AdjacencyMatrix
 from structures.IncidenceMatrix import IncidenceMatrix
-
+from collections import defaultdict
 
 class AdjacencyList:
     '''Representation of a graph as adjacency list'''
 
     def __init__(self, size: int):
         self.size = size
-        self.adjacency_dictionary = dict()
+        self.adjacency_dictionary = defaultdict(list)
 
     def __str__(self):
         return_string = ''

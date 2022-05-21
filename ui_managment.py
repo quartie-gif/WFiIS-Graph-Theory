@@ -261,6 +261,20 @@ def set2_choice():
 
 
 def set3_choice():
+
+    def get_random_graph_with_user_input():
+        number_of_vertices = int(
+            input("Enter number of vertices: "))
+        probability = float(input("Enter probability: "))
+        graph = Graph()
+        while True:
+            graph = graph.generate_random_graph_vp(
+                number_of_vertices=number_of_vertices, probability=probability, weighted=True, directed=False)
+            if graph.is_connected():
+                break
+        graph.plot()
+        return graph
+
     '''Picker of excecices from set 3'''
     print_header()
     print("===================== SET 3 =====================")
@@ -271,19 +285,55 @@ def set3_choice():
     print("||  (4) Exercise 4")
     print("||  (5) Exercise 5")
     ex = int(input())
+    # graph = Graph()
     if ex == 1:
-        print('to refill')
+        graph = get_random_graph_with_user_input()
+
     elif ex == 2:
-        print('to refill')
+        graph = get_random_graph_with_user_input()
+        start_vertex = int(
+            input("Start: "))
+        while(True):
+            graph.get_shortest_path(start_vertex, print_solutions=True)
+            are_ok = str(
+                input('Are recieved shorthest paths appropriate? [Yes/No]'))
+            if are_ok == "Yes":
+                break
+
     elif ex == 3:
-        print('to refill')
+        graph = get_random_graph_with_user_input()
+        while(True):
+            dist_matrix = graph.to_distance_matrix()
+            print(dist_matrix)
+            are_ok = str(
+                input('Is recieved distance matrix appropriate? [Yes/No]'))
+            if are_ok == "Yes":
+                break
+
     elif ex == 4:
-        print('to refill')
+        while True:
+            graph = get_random_graph_with_user_input()
+            center, min_sum = graph.get_center_vertices()
+            print(f'Centrum = {center} (suma odleglosci: {min_sum})')
+            center_minimax, minimax = graph.get_center_minimax()
+            print(
+                f'Centrum minimax = {center_minimax} (odleglosc od najdalszego: {minimax})')
+            are_ok = str(
+                input('Is recieved distance matrix appropriate? [Yes/No]'))
+            if are_ok == "Yes":
+                break
     elif ex == 5:
-        print('to refill')
+        while True:
+            graph = get_random_graph_with_user_input()
+            graph.find_min_spanning_tree()
+            are_ok = str(
+                input('Is recieved min spanning tree appropriate? [Yes/No]'))
+            if are_ok == "Yes":
+                break
     else:
         print('Unexpected choice')
         return True
+
 
 def set4_choice():
     print_header()

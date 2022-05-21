@@ -47,7 +47,6 @@ class Graph:
         weights = []
         for _ in range(size):
             weights.append(random.randint(start, stop))
-            # print(weights)
         return weights
 
     @staticmethod
@@ -75,7 +74,6 @@ class Graph:
             random_u_1 = random.randint(0, number_of_vertices-1)
             random_u_2 = utils.random_choice_except(
                 number_of_vertices, random_u_1)
-            # print(f'''random_u_1: {random_u_1}, random_u_2: {random_u_2}''')
             if (random_u_1, random_u_2) not in random_graph.edges:
                 random_graph.edges.append((random_u_1, random_u_2))
 
@@ -106,8 +104,6 @@ class Graph:
         for vertice in range(number_of_vertices):
             for vertice_to_align in range(number_of_vertices):
                 if vertice_to_align != vertice:
-                    # print("vertice_to_align = ", vertice_to_align)
-                    # print("vertice = ", vertice)
                     random_probability = random.random()
                     if random_probability <= probability:
                         if directed:
@@ -119,7 +115,6 @@ class Graph:
                             # get rid of duplicates for undirected graphs
                             random_graph.edges = random_graph.get_edges()
 
-                    #    print(f'''vertice: {vertice}, inner_vertice: {vertice_to_align}''')
         if random_graph.weighted:
             random_graph.randomize_weights(1, 10)
         return random_graph
@@ -159,7 +154,16 @@ class Graph:
 
         return regular_graph
 
-    def is_connected(self, edges: list = []):
+    def dfs(self, node: int, visited: set = set()):
+        '''Depth-first search'''
+        adj_list = self.to_adjacency_list()
+        if node not in visited:
+            visited.add(node)
+            for neighbour in adj_list.adjacency_dictionary[node]:
+                self.dfs(neighbour, visited)
+        return visited
+
+    def is_connected(self):
         '''Check if graph is connected'''
         if self.number_of_vertices == 0:
             return False
@@ -175,13 +179,10 @@ class Graph:
 
     def is_connected_undirected(self):
         '''Check if graph is undirected connected'''
-        visited_vertices = [False for _ in range(self.number_of_vertices)]
-        for edge in self.edges:
-            visited_vertices[edge[0]] = True
-            visited_vertices[edge[1]] = True
-        for visited_vertex in visited_vertices:
-            if not visited_vertex:
-                return False
+        visited = set()
+        visited = list(self.dfs(0, visited))
+        if len(visited) != self.number_of_vertices:
+            return False
         return True
 
     def vertex_labels(self):
@@ -207,7 +208,7 @@ class Graph:
         '''Plot and display graph'''
         if self.weighted and self.directed:
             graph_visualization = ig.Graph(
-                n = self.number_of_vertices,
+                n=self.number_of_vertices,
                 edges=self.edges,
                 directed=True
             )
@@ -218,7 +219,7 @@ class Graph:
             edge_curved = True
         elif self.weighted and not self.directed:
             graph_visualization = ig.Graph(
-                n = self.number_of_vertices,
+                n=self.number_of_vertices,
                 edges=self.edges,
                 directed=False
             )
@@ -242,7 +243,7 @@ class Graph:
                 edges=self.edges
             )
             graph_visualization.vs["label"] = self.vertex_labels()
-            label = False;
+            label = False
             edge_curved = False
         if len(color_vs) > 0:
             for vs_key in color_vs.keys():
@@ -254,9 +255,9 @@ class Graph:
                     graph_visualization.vs[vs]['color'] = rgb
         ig.plot(graph_visualization,
                 layout=layout,
-                label = label,
-                edge_curved = edge_curved,
-                vertex_size = 50,
+                label=label,
+                edge_curved=edge_curved,
+                vertex_size=50,
                 margin=50)
 
     def get_vertices(self):
@@ -337,7 +338,6 @@ class Graph:
                     to_change -= 1
             self.plot(layout='circle')
 
-
     def get_shortest_path_directed(self, start_vertex: int, print_solutions: bool = False):
         '''Return shortest path from start to all other vertices'''
         # TODO implement this method for directed graphs
@@ -345,6 +345,7 @@ class Graph:
 
     def minDistance(self, dist, p_s):
         min = math.inf
+        min_index = 0
         for v in range(self.number_of_vertices):
             if dist[v] < min and p_s[v] == False:
                 min = dist[v]
@@ -401,8 +402,6 @@ class Graph:
         dist_matrix = DistanceMatrix.DistanceMatrix(self.number_of_vertices)
         for i in range(self.number_of_vertices):
             row_to_append = self.get_shortest_path(i)
-            # print("From vertex {} to all other vertices:".format(i))
-            # print(row_to_append)
             for j in range(self.number_of_vertices):
                 dist_matrix.set(i, j, row_to_append[j])
         return dist_matrix
@@ -467,6 +466,7 @@ class Graph:
     def degree(self, vert: int):
         '''Return degree of a given vertex'''
         return sum(i.count(vert) for i in self.edges)
+
     @staticmethod
     def transpose(graph):
         g = Graph(vertices=graph.number_of_vertices,
