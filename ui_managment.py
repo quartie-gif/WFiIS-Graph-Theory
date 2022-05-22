@@ -410,14 +410,14 @@ def set4_choice():
             print("Insert probability: ")
             p = float(input())
             print("Minimal weight: ")
-            b = int(input())
-            print("MAximal weight: ")
+            k = int(input())
+            print("Maximal weight: ")
             e = int(input())
             b = False
             while not b:
                 gr = DirectedGraphs.generate_random_directed_graph(v, p)
                 b = (len(DirectedGraphs.kosaraju(gr)) == 1)
-            gr.randomize_weights(b, e)
+            gr.randomize_weights(k, e)
             gr.plot(color_vs=DirectedGraphs.kosaraju(gr))
             if b2 := DirectedGraphs.shortest_path_bf(gr, 0, 5):
                 gr.plot(color_vs=b2)
