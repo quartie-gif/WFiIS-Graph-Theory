@@ -385,7 +385,7 @@ class Graph:
         print(j, end="-")
 
     def printSolution(self, dist, parent: list):
-        for i in range(1, len(dist)):
+        for i in range(0, len(dist)):
             print(f'\nd({i}) = {dist[i]} ==>\t', end=" ")
             self.printPath(parent, i)
         print('\n')
