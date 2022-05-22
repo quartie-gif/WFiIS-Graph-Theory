@@ -215,7 +215,7 @@ class Graph:
             graph_visualization.es["weights"] = self.weighted_edges
             graph_visualization.es["label"] = self.weighted_edges
             label = True
-            edge_curved = True
+            edge_curved = .3
         elif self.weighted and not self.directed:
             graph_visualization = ig.Graph(
                 n = self.number_of_vertices,

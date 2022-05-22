@@ -1,17 +1,16 @@
+import sys
+
 from . import *
 import random
 
 def generate_random_directed_graph(vert: int, probability: float):
     random_graph = Graph()
-    # random_graph.weighted = True
     random_graph.directed = True
     random_graph.number_of_vertices = vert
     for i in range(random_graph.number_of_vertices):
         for j in range(random_graph.number_of_vertices):
             if i != j and random.uniform(0, 1) < probability:
                 random_graph.edges.append((i, j))
-    # for _ in range(len(random_graph.edges)):
-    #     random_graph.weighted_edges.append(random.randint(1, 10))
     return random_graph
 
 def DFS_visit(v, graph : Graph, d, f, t):
@@ -67,3 +66,39 @@ def kosaraju(graph: Graph):
     for i in range(len(comp)):
         result[comp[i]].append(i)
     return result
+
+def bellman_ford(graph: Graph, start: int):
+    p = {}
+    d = {}
+    for v in range(graph.number_of_vertices):
+        d[v] = sys.maxsize
+        p[v] = None
+    d[start] = 0
+
+    for _ in range(graph.number_of_vertices):
+        for i in range(len(graph.edges)):
+            u = graph.edges[i][0]
+            v = graph.edges[i][1]
+            if d[u] + graph.weighted_edges[i] < d[v]:
+                d[v] = d[u] + graph.weighted_edges[i]
+                p[v] = u
+
+    for i in range(len(graph.edges)):
+        u = graph.edges[i][0]
+        v = graph.edges[i][1]
+        if d[v] > d[u] + graph.weighted_edges[i]:
+            return False, False
+
+    return p, d
+
+def shortest_path_bf (graph: Graph, start:int, end:int):
+    if p := bellman_ford(graph, start)[0]:
+        shortestPath = []
+        shortestPath.append(end)
+        while start != end:
+            end = p[end]
+            shortestPath.insert(0, end)
+        result = {}
+        result[0] = shortestPath
+        return result
+    return False

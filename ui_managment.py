@@ -221,17 +221,11 @@ def set2_choice():
             print("Given string is not graphical string")
 
     elif ex == 4:
-        while (True):
-            print("Insert verticles: ")
-            v = int(input())
-            print("Insert edges: ")
-            e = int(input())
-            g = Graph.generate_random_graph_ve(v, e)
-            g.plot()
-            print('Is recived graph appropriate? [Yes/No]')
-            is_ok = str(input())
-            if is_ok == "Yes":
-                break
+        print("Insert a string (pattern: 3 2 2 2 1): ")
+        cin = input()
+        in_str = list(map(int, list(cin.split(" "))))
+        g = string_to_graph(in_str)
+        g.plot(layout='circle')
         print(eulerian_cycle(g))
 
     elif ex == 5:
@@ -302,26 +296,87 @@ def set4_choice():
         g = DirectedGraphs.generate_random_directed_graph(v, p)
         g.plot()
     elif ex == 2:
-        print("Kosaraju algorithm")
-        file = open("input/input_4.2.txt", "r")
-        list = []
-        line = file.readline()
-        while line:
-            list.append(map(int, line.split(" ")))
-            line = file.readline()
-        adjencyList = AdjacencyList(size=len(list))
-        for i in range(len(list)):
-            adjencyList.adjacency_dictionary.setdefault(i, list[i])
-        g = Graph(vertices=adjencyList.size, directed=True, weighted=False)
-        g.edges = adjencyList.generate_graph_data(directed=True)
-        g.plot(color_vs=DirectedGraphs.kosaraju(g))
+        while True:
+            cls()
+            print("=============== Kosajaru Algorithm ===============")
+            print("||  (1) Load graph from file")
+            print("||  (2) Make random graph G(number_of_vertices, probability)")
+            print("||  (0) Exit ")
 
-        gr = DirectedGraphs.generate_random_directed_graph(8, .2)
-        gr.plot(color_vs=DirectedGraphs.kosaraju(gr))
+            option = int(input())
+            if option == 1:
+
+                file = open("input/input_4.2.txt", "r")
+                list = []
+                line = file.readline()
+                while line:
+                    list.append(map(int, line.split(" ")))
+                    line = file.readline()
+                adjencyList = AdjacencyList(size=len(list))
+                for i in range(len(list)):
+                    adjencyList.adjacency_dictionary.setdefault(i, list[i])
+                g = Graph(vertices=adjencyList.size, directed=True, weighted=False)
+                g.edges = adjencyList.generate_graph_data(directed=True)
+                g.plot(color_vs=DirectedGraphs.kosaraju(g))
+
+            if option == 2:
+                print("Insert verticles: ")
+                v = int(input())
+                print("Insert probability: ")
+                p = float(input())
+                gr = DirectedGraphs.generate_random_directed_graph(v, p)
+                gr.plot(color_vs=DirectedGraphs.kosaraju(gr))
+
+            else:
+                set4_choice()
     elif ex == 3:
-        print('to refill')
+        cls()
+        print("============== Bellman-Ford Algorithm ==============")
+        print("||  (1) Load graph from file")
+        print("||  (2) Make random graph G(number_of_vertices, probability)")
+        print("||  (0) Exit ")
+
+        option = int(input())
+        if option == 1:
+            file = open("input/input_4.2.txt", "r")
+            list = []
+            line = file.readline()
+            while line:
+                list.append(map(int, line.split(" ")))
+                line = file.readline()
+            adjencyList = AdjacencyList(size=len(list))
+            for i in range(len(list)):
+                adjencyList.adjacency_dictionary.setdefault(i, list[i])
+            g = Graph(vertices=adjencyList.size, directed=True, weighted=True)
+            g.edges = adjencyList.generate_graph_data(directed=True)
+            g.randomize_weights(0,10)
+            g.plot(color_vs=DirectedGraphs.kosaraju(g))
+            if b := DirectedGraphs.shortest_path_bf(g, 0, 5):
+                g.plot(color_vs = b)
+
+        if option == 2:
+            print("Insert verticles: ")
+            v = int(input())
+            print("Insert probability: ")
+            p = float(input())
+            print("Minimal weight: ")
+            b = int(input())
+            print("MAximal weight: ")
+            e = int(input())
+            b = False
+            while not b:
+                gr = DirectedGraphs.generate_random_directed_graph(v, p)
+                b = (len(DirectedGraphs.kosaraju(gr)) == 1)
+            gr.randomize_weights(b, e)
+            gr.plot(color_vs=DirectedGraphs.kosaraju(gr))
+            if b2 := DirectedGraphs.shortest_path_bf(gr, 0, 5):
+                gr.plot(color_vs=b2)
+            else:
+                print("Graph has a negative cycle")
+        else:
+            set4_choice()
     elif ex == 4:
-        print('to refill')
+        print('Unaviable')
     else:
         print('Unexpected choice')
         return True
