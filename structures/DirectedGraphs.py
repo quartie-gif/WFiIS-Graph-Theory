@@ -88,11 +88,15 @@ def bellman_ford(graph: Graph, start: int):
         v = graph.edges[i][1]
         if d[v] > d[u] + graph.weighted_edges[i]:
             return False, False
-
+    print("For ", start, "as start:")
+    print("Vertices => predecessor, distance")
+    for key in p:
+        print (key, "=>", p[key], ",", d[key])
     return p, d
 
 def shortest_path_bf (graph: Graph, start:int, end:int):
     if p := bellman_ford(graph, start)[0]:
+        print("Path from", start, "to", end, "plotted with different color vertices")
         shortestPath = []
         shortestPath.append(end)
         while start != end:

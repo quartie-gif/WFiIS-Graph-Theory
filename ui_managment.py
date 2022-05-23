@@ -1,3 +1,4 @@
+import gc
 from secrets import choice
 from matplotlib.pyplot import plot
 from structures import *
@@ -312,8 +313,11 @@ def set3_choice():
             center_minimax, minimax = graph.get_center_minimax()
             print(
                 f'Centrum minimax = {center_minimax} (odleglosc od najdalszego: {minimax})')
+            dist_matrix = graph.to_distance_matrix()
+            print(dist_matrix)
             are_ok = str(
                 input('Is recieved distance matrix appropriate? [Yes/No]'))
+
             if are_ok == "Yes":
                 break
     elif ex == 5:
@@ -345,6 +349,7 @@ def set4_choice():
         p = float(input())
         g = DirectedGraphs.generate_random_directed_graph(v, p)
         g.plot()
+        exit(0)
     elif ex == 2:
         while True:
             cls()
@@ -368,15 +373,15 @@ def set4_choice():
                 g = Graph(vertices=adjencyList.size, directed=True, weighted=False)
                 g.edges = adjencyList.generate_graph_data(directed=True)
                 g.plot(color_vs=DirectedGraphs.kosaraju(g))
-
+                exit(0)
             if option == 2:
                 print("Insert verticles: ")
                 v = int(input())
                 print("Insert probability: ")
                 p = float(input())
-                gr = DirectedGraphs.generate_random_directed_graph(v, p)
+                gr = DirectedGraphs.generate_random_directed_graph(vert=v, probability=p)
                 gr.plot(color_vs=DirectedGraphs.kosaraju(gr))
-
+                exit(0)
             else:
                 set4_choice()
     elif ex == 3:
@@ -399,30 +404,32 @@ def set4_choice():
                 adjencyList.adjacency_dictionary.setdefault(i, list[i])
             g = Graph(vertices=adjencyList.size, directed=True, weighted=True)
             g.edges = adjencyList.generate_graph_data(directed=True)
-            g.randomize_weights(0,10)
+            g.randomize_weights(-1,10)
             g.plot(color_vs=DirectedGraphs.kosaraju(g))
             if b := DirectedGraphs.shortest_path_bf(g, 0, 5):
                 g.plot(color_vs = b)
+            exit(0)
 
         if option == 2:
             print("Insert verticles: ")
             v = int(input())
-            print("Insert probability: ")
-            p = float(input())
             print("Minimal weight: ")
             k = int(input())
             print("Maximal weight: ")
             e = int(input())
             b = False
             while not b:
-                gr = DirectedGraphs.generate_random_directed_graph(v, p)
+                gr = DirectedGraphs.generate_random_directed_graph(v, 0.3)
                 b = (len(DirectedGraphs.kosaraju(gr)) == 1)
             gr.randomize_weights(k, e)
             gr.plot(color_vs=DirectedGraphs.kosaraju(gr))
             if b2 := DirectedGraphs.shortest_path_bf(gr, 0, 5):
                 gr.plot(color_vs=b2)
+
             else:
                 print("Graph has a negative cycle")
+            gc.collect()
+            exit(0)
         else:
             set4_choice()
     elif ex == 4:
