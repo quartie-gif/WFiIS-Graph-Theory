@@ -204,7 +204,7 @@ class Graph:
             weight_matrix.insert(edge[0], edge[1], self.weighted_edges[i])
         return weight_matrix
 
-    def plot(self, layout='auto', color_vs: dict = {}):
+    def plot(self, layout='auto', color_vs: dict = {}, isFlowNetwork: bool = False):
         '''Plot and display graph'''
         if self.weighted and self.directed:
             graph_visualization = ig.Graph(
@@ -253,6 +253,8 @@ class Graph:
                 rgb = [r, g, b]
                 for vs in color_vs[vs_key]:
                     graph_visualization.vs[vs]['color'] = rgb
+        if isFlowNetwork:
+            edge_curved = False
         ig.plot(graph_visualization,
                 layout=layout,
                 label=label,
@@ -476,3 +478,9 @@ class Graph:
         for edge in graph.edges:
             g.edges.append((edge[1], edge[0]))
         return g
+
+    def get_weight (self, v:int, u:int):
+        for i in range(len(self.edges)):
+            if self.edges[i][0] == v and self.edges[i][1] == u:
+                return self.weighted_edges[i]
+        return False

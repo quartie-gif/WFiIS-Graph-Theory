@@ -32,7 +32,7 @@ def main_menu():
     print("||  (2) Set 2 - graph string, graph cycles")
     print("||  (3) Set 3 - weighted graphs")
     print("||  (4) Set 4 - directed graphs ")
-    print("||  (5) Set 5 - unaviable")
+    print("||  (5) Set 5 - flow network")
     print("||  (6) Set 6 - unaviable")
     print("||  (0) Exit ")
     return int(input())
@@ -57,7 +57,7 @@ def match_set(choice: int):
         os.system("pause")
         return True
     elif choice == 5:
-        print('unaviable')
+        set5_choice()
         os.system("pause")
         return True
     elif choice == 6:
@@ -437,3 +437,24 @@ def set4_choice():
     else:
         print('Unexpected choice')
         return True
+
+def set5_choice():
+    print_header()
+    print("===================== SET 5 =====================")
+    print("||  Choose which set of exercises you want open:")
+    print("||  (1) Exercise 1")
+    print("||  (2) Exercise 2")
+    ex = int(input())
+    if ex == 1:
+        print("Insert layers: ")
+        l = int(input())
+        fn = FlowNetwork.generate_random_flow_network(l)
+        fn.plot()
+        exit(0)
+    elif ex == 2:
+        print("Insert layers: ")
+        l = int(input())
+        fn = FlowNetwork.generate_random_flow_network(l)
+        fn.plot()
+        print("Max flow: ", fn.ford_fulkerson())
+        exit(0)
