@@ -476,3 +476,11 @@ class Graph:
         for edge in graph.edges:
             g.edges.append((edge[1], edge[0]))
         return g
+
+    def directed_outcoming_edges(self, vert: int):
+        '''Return list od neighburs of given vertice'''
+        is_neighbour = lambda e: True if( e[0] == vert) else False
+        out = list(filter(is_neighbour, self.edges)) 
+        # print( [ edge[1] for edge in out ] )
+        return [ edge[1] for edge in out ]
+

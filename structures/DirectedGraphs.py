@@ -2,6 +2,8 @@ import sys
 
 from . import *
 import random
+import utils
+import numpy as np
 
 def generate_random_directed_graph(vert: int, probability: float):
     random_graph = Graph()
@@ -12,6 +14,20 @@ def generate_random_directed_graph(vert: int, probability: float):
             if i != j and random.uniform(0, 1) < probability:
                 random_graph.edges.append((i, j))
     return random_graph
+
+
+def generate_network(pages: int, links: int):
+    network = Graph()
+    network.directed = True
+    network.number_of_vertices = pages
+    for _ in range(links):
+        while True:
+            i = random.randrange(0, pages)
+            j = utils.random_choice_except(pages, i)
+            if ((i,j) not in network.edges) :
+                break
+        network.edges.append((i, j)) 
+    return network
 
 def DFS_visit(v, graph : Graph, d, f, t):
     t += 1
@@ -106,3 +122,11 @@ def shortest_path_bf (graph: Graph, start:int, end:int):
         result[0] = shortestPath
         return result
     return False
+        
+def graph_to_adjencyList(graph: Graph):
+    out = [ [ 0.0 for i in range(graph.amount_of_vertices()) ] for j in range(graph.amount_of_vertices()) ]
+    for i in range(graph.amount_of_vertices()):
+        neighburs = graph.directed_outcoming_edges(i)
+        for j in neighburs:
+            out[j][i] += 1.0
+    return out

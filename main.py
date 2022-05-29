@@ -79,9 +79,15 @@ def main():
             print(e)
             os.system("pause")
 
+def main_debug():
+    is_running = True
+    while(is_running):
+        choice = main_menu()
+        is_running = match_set(choice)
+
 
 if __name__ == "__main__":
-    main()
+    main_debug()
     # debug()
 # 1 2 4
 # 0 2 3 4 6

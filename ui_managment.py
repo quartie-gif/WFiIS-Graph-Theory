@@ -3,8 +3,10 @@ from secrets import choice
 from matplotlib.pyplot import plot
 from structures import *
 from strings_cycles import *
+from page_rank import *
 import utils
 import os
+import traveling_salesman
 
 
 def cls():
@@ -33,7 +35,7 @@ def main_menu():
     print("||  (3) Set 3 - weighted graphs")
     print("||  (4) Set 4 - directed graphs ")
     print("||  (5) Set 5 - unaviable")
-    print("||  (6) Set 6 - unaviable")
+    print("||  (6) Set 6 - Page Rank and Travelling Salesman")
     print("||  (0) Exit ")
     return int(input())
 
@@ -61,7 +63,7 @@ def match_set(choice: int):
         os.system("pause")
         return True
     elif choice == 6:
-        print('unaviable')
+        set6_choice()
         os.system("pause")
         return True
     elif choice == 0:
@@ -437,3 +439,31 @@ def set4_choice():
     else:
         print('Unexpected choice')
         return True
+
+def set6_choice():
+    print_header()
+    print("===================== SET 6 =====================")
+    print("||  Choose which set of excecices you want open:")
+    print("||  (1) Page Rank")
+    print("||  (2) Traveling salesman problem")
+    ex = int(input())
+    if ex == 1:
+        pages = int(input("Enter number of pages in netowrk: "))
+        links = int(input("Enter number of links bettwen pages: "))
+        network = DirectedGraphs.generate_network(pages, links)
+        network.plot()
+        steps = int(input("Enter number of setps: "))
+        dumping = float(input("Enter dumping factor - value (0;1): "))
+        print("Random Walker:\n", random_walker(network,steps,dumping))
+        print("Matrix multipy:\n", random_walker(network,steps,dumping))
+
+    elif ex == 2:
+        vert = int(input("Enter number of vertices: "))
+        it = int(input("Enter MAX_IT: "))
+        traveling_salesman.TSP(vert, it, 'TSP_in.dat')
+
+    else:
+        print('Unexpected choice')
+
+    return True
+        
