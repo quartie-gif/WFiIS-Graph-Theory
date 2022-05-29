@@ -1,54 +1,5 @@
 from ui_managment import *
 
-
-def task_2():
-    # print( 'zad 2.1' )
-    # str_1 = [4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2]
-    # str_2 = [4, 4, 3, 1, 2]
-    # print( "Czy ciag graficzny:" )
-    # print( "str_1: ", is_graphical_string(str_1) )
-    # print( "str_2: ", is_graphical_string(str_2) )
-    # graph = string_to_graph(str_1)
-    # graph.plot(layout='auto')
-
-    # print('zad 2.2')
-    # graph.randomize()
-    # graph.plot(layout='auto')
-
-    # print('zad 2.3')
-    # print( components_listing(graph) )
-
-    print('zad 2.4')
-
-    print('zad 2.5')
-    k_regular_graph = Graph.generate_k_regular_graph(4, 1)
-    k_regular_graph.plot()
-
-    k_regular_graph = Graph.generate_k_regular_graph(4, 2)
-    k_regular_graph.plot()
-
-    k_regular_graph = Graph.generate_k_regular_graph(4, 3)
-    k_regular_graph.plot()
-
-    k_regular_graph = Graph.generate_k_regular_graph(8, 1)
-    k_regular_graph.plot()
-
-    k_regular_graph = Graph.generate_k_regular_graph(8, 3)
-    k_regular_graph.plot()
-
-    k_regular_graph = Graph.generate_k_regular_graph(8, 5)
-    k_regular_graph.plot()
-
-    k_regular_graph = Graph.generate_k_regular_graph(7, 2)
-    k_regular_graph.plot()
-
-    k_regular_graph = Graph.generate_k_regular_graph(7, 4)
-    k_regular_graph.plot()
-
-    k_regular_graph = Graph.generate_k_regular_graph(7, 6)
-    k_regular_graph.plot()
-
-
 def debug():
     number_of_vertices = int(
         input("Enter number of vertices: "))
@@ -87,12 +38,5 @@ def main_debug():
 
 
 if __name__ == "__main__":
-    main_debug()
-    # debug()
-# 1 2 4
-# 0 2 3 4 6
-# 5
-# 1 6
-# 6
-# 1
-# 5
+    main()
+

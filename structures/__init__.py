@@ -5,8 +5,9 @@ from structures.Graph import Graph
 from structures.WeightMatrix import WeightMatrix
 from structures.DistanceMatrix import DistanceMatrix
 from structures.DirectedGraphs import *
+from structures.FlowNetwork import *
 
 
 __all__ = ['AdjacencyList', 'AdjacencyMatrix',
            'Graph', 'IncidenceMatrix', 'WeightMatrix', 'DistanceMatrix',
-           'DirectedGraphs']
+           'DirectedGraphs', 'FlowNetwork']
