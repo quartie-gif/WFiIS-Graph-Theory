@@ -92,8 +92,12 @@ class FlowNetwork (Graph):
                         if gf.edges[j] == (p[i + 1], p[i]):
                             self.flow[j] += cp
         result = 0
-        for v in gf.layers[1]:
-            result += gf.get_flow(0, v)
+        print("Residual edges:", gf.edges)
+        print("Capacities:",gf.weighted_edges)
+        print("Flow:",gf.flow)
+        for v in gf.edges:
+            if v[0] == 0:
+                result += self.get_flow(0, v[1])
         return result
 
 
