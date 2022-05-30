@@ -39,8 +39,3 @@ def main_debug():
 
 if __name__ == "__main__":
     main()
-<<<<<<< HEAD
-
-=======
-    # debug()
->>>>>>> 77bc0dbb2d64a5b8fd484f4a20c4c2e237c924cb

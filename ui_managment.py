@@ -471,13 +471,13 @@ def set6_choice():
     ex = int(input())
     if ex == 1:
         pages = int(input("Enter number of pages in netowrk: "))
-        links = int(input("Enter number of links bettwen pages: "))
+        links = int(input("Enter number of links between pages: "))
         network = DirectedGraphs.generate_network(pages, links)
         network.plot()
         steps = int(input("Enter number of setps: "))
         dumping = float(input("Enter dumping factor - value (0;1): "))
         print("Random Walker:\n", random_walker(network,steps,dumping))
-        print("Matrix multipy:\n", random_walker(network,steps,dumping))
+        print("Matrix multipy:\n", page_rank(network,dumping))
 
     elif ex == 2:
         vert = int(input("Enter number of vertices: "))

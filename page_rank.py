@@ -26,7 +26,7 @@ def random_walker(graph: DirectedGraphs, steps: int, damping: float ):
             ranks[current] += 1
     return { i: float(pr/steps) for (i, pr) in ranks.items()}
 
-def page_rank(graph: DirectedGraphs, steps: int, damping: float ):
+def page_rank(graph: DirectedGraphs, damping: float ):
     ranks = { i: 0 for i in range(graph.amount_of_vertices()) }
     n = graph.amount_of_vertices()
     P = np.zeros((n,n))
@@ -43,14 +43,16 @@ def page_rank(graph: DirectedGraphs, steps: int, damping: float ):
     previous = np.full(n, 1/n)
     current = np.zeros(n)
 
-    error = 1
-    while error > 1e-6:
-        current = previous.dot(P)
+    itr, error = 0, 1.0
+    while error > 1e-12:
+        current = np.dot(previous, np.transpose(P))
         err_mtx = current - previous
-        error = sum( e**2 for e in err_mtx )
         previous = current
+        error = sum( e**2 for e in err_mtx ) ** 0.5
+        itr += 1
         
-    return { i: current[i] for i in range(n) }
+    print(f"Iteracje = {itr}")
+    return { i: previous[i] for i in range(n) }
 
 
 
