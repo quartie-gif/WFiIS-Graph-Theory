@@ -96,22 +96,7 @@ def TSP(vertices: int, MAX_IT: int, file: str):
     print("Path after annealing:\n", P)
 
     with open(r'TSP_result.txt', 'w') as fp:
-        is_first = True
-        end_od_line = False
-        eol_count = 0
-        for item in P:
-            if is_first:
-                loop = item
-                is_first = False
-            # write each item on a new line
-            fp.write("%s-" % item)
-            eol_count += 1
-            if eol_count % 10 == 0:
-                end_od_line = True
-            if end_od_line:
-                fp.write("\n")
-                end_od_line = False
-        fp.write("%s" % loop)
+        fp.write('\n'.join('({}, {})'.format(all_vert[p][0],all_vert[p][1]) for p in P))
         print('Saved')
 
     
